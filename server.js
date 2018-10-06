@@ -17,7 +17,7 @@ app.get('/', function(req, res){
     res.sendFile("index.html", {root: '.'})
 })
 
-// localhost:3000/ocr or /ldp implementation
+// localhost:3000/tesseract or /ldp implementation
 app.use('/tesseract', tesseract)
 app.use('/ldp', ldp)
 

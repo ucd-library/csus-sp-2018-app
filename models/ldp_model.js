@@ -12,10 +12,11 @@ exports.get = function () {
             'Accept-Charset': 'utf-8',
             'User-Agent': 'Chrome/67.0.3396.99'
         }
-    };
+    }
 
     request(options, function(err, res, body) {
-        return body
+        //todo Transform body of request into a usable image.
+         image = body
 
     })
 
