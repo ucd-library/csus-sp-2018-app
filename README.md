@@ -1,9 +1,10 @@
-### OCR Application
+# __OCR Application Setup__
+
 ----
-__Creating Local UC Davis LDP instance:__
+### Creating Local UC Davis LDP instance:
 1. git clone https://github.com/UCDavisLibrary/fin-example-repository.git
 2. Add this code to conf/default_services.js
-```
+```https://github.com/ucd-library/csus-sp-2018-app/issues
   { 
     id : 'tesseract',
     description : 'Image OCR',
@@ -20,7 +21,8 @@ alias dc="docker-compose -p $user -f fin-example.yml"
 dc up -d
 ```
 
-__Getting data into your repo:__ 
+### Getting data into your repo
+1. Run these commands
 ```
 user=<your first name>
 email=<an email>
@@ -31,5 +33,5 @@ source fin-example.env; fin jwt encode --admin --save=true $JWT_SECRET $JWT_ISSU
 fin config set host http://localhost:3000
 fin http put -H prefer:return=minimal -H "Content-Type:text/turtle" -@ server.ttl -P h /
 fin http get -P b /
-sudo ./collection/example_3-catalogs/import.sh
-```
+sudo ./collection/example_3-catalogs/import.
+
