@@ -33,5 +33,5 @@ source fin-example.env; fin jwt encode --admin --save=true $JWT_SECRET $JWT_ISSU
 fin config set host http://localhost:3000
 fin http put -H prefer:return=minimal -H "Content-Type:text/turtle" -@ server.ttl -P h /
 fin http get -P b /
-sudo ./collection/example_3-catalogs/import.
+sudo ./collection/example_3-catalogs/import.sh
 
