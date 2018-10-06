@@ -3,7 +3,6 @@
 ----
 ### Creating Local UC Davis LDP instance:
 1. git clone https://github.com/UCDavisLibrary/fin-example-repository.git
-2. cd into fin-example-repo
 2. Add this code to conf/default_services.js
 ```https://github.com/ucd-library/csus-sp-2018-app/issues
   { 
@@ -17,16 +16,16 @@
 3. Execute following commands
 ```
 cd ~/fin-example-repository
-user=<your first name>
+user=csus
 alias dc="docker-compose -p $user -f fin-example.yml"
 dc up -d
 ```
 
-### Getting data into your repo
+### Getting data LDP
 1. Run these commands
 ```
-user=<your first name>
-email=<an email>
+user=csus
+email=s.project.csus@gmail.com
 alias dc="docker-compose -p $user -f fin-example.yml"
 dc exec basic-auth node service/cli create-user -u $user -p password -e $email
 dc exec server node app/cli admin add-admin -u ${user}@local
