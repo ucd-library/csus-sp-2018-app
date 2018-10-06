@@ -3,6 +3,7 @@
 ----
 ### Creating Local UC Davis LDP instance:
 1. git clone https://github.com/UCDavisLibrary/fin-example-repository.git
+2. cd into fin-example-repo
 2. Add this code to conf/default_services.js
 ```https://github.com/ucd-library/csus-sp-2018-app/issues
   { 
