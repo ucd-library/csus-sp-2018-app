@@ -21,7 +21,7 @@ alias dc="docker-compose -p $user -f fin-example.yml"
 dc up -d
 ```
 
-### Getting data LDP
+### Getting data into LDP
 1. Run these commands
 ```
 user=csus
