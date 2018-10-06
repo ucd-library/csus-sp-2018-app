@@ -2,7 +2,17 @@
 ----
 __Creating Local UC Davis LDP instance:__
 1. git clone https://github.com/UCDavisLibrary/fin-example-repository.git
-2. Execute following commands
+2. Add this code to conf/default_services.js
+```
+  { 
+    id : 'tesseract',
+    description : 'Image OCR',
+    type : 'ProxyService',
+    supportedType : 'http://www.w3.org/ns/ldp#NonRDFSource',
+    urlTemplate : 'http://tesseract:3333{{fcPath}}?svcPath={{svcPath}}'
+  },
+```
+3. Execute following commands
 ```
 cd ~/fin-example-repository
 user=<your first name>
