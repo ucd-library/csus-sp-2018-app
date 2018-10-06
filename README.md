@@ -3,6 +3,8 @@
 ----
 ### Creating Local UC Davis LDP instance:
 1. git clone https://github.com/UCDavisLibrary/fin-example-repository.git
+2. Run `sudo apt install npm`
+2. Add fin-cli `npm install -g @ucd-lib/fin-cli`
 2. Add this code to conf/default_services.js
 ```https://github.com/ucd-library/csus-sp-2018-app/issues
   { 
@@ -34,4 +36,14 @@ fin config set host http://localhost:3000
 fin http put -H prefer:return=minimal -H "Content-Type:text/turtle" -@ server.ttl -P h /
 fin http get -P b /
 sudo ./collection/example_3-catalogs/import.sh
+```
 
+### Starting and stopping docker containers
+1. After running these commands if you want to stop your sever run `docker-compose -p csus -f fin-example.yml stop`
+2. To start the containers (Usually after a reboot) run `docker-compose -p csus -f fin-example.yml start` 
+
+### Installing our application
+1. Get our git repo `git clone https://github.com/ucd-library/csus-sp-2018-app.git`
+2. Get into our repo locally `cd csus-sp-2018-app`
+3. Run `npm install` to bring all the dependencies from the `package.json` 
+4. Run `node server.js` to start it up
