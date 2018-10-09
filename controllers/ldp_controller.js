@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const SchemaValidator = require('../middlewares/schema_validator');
 
+
 // We are using the formatted Joi Validation error
 // Pass false as argument to use a generic error
 const validateRequest = SchemaValidator(true);

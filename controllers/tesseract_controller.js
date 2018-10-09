@@ -1,3 +1,4 @@
+
 /* tesseract_controller.js */
 
 const express = require('express');
@@ -18,5 +19,6 @@ const genericHandler = (req, res, next) => {
 
 // create a new teacher or student
 router.post('/1', validateRequest, genericHandler);
+
 
 module.exports = router;

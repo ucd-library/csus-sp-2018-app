@@ -27,7 +27,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
-app.use('/tesseract', tesseract);
-app.use('/ldp', ldp);
+
+// localhost:3000/tesseract or /ldp implementation
+app.use('/tesseract', tesseract)
+app.use('/ldp', ldp)
+
 
 app.listen(port, () => console.log(`App running on port ${port}!`));
