@@ -54,3 +54,10 @@ sudo ./collection/example_3-catalogs/import.sh
 ```
 curl -H accept:application/hocr+xml http://localhost:3000/fcrepo/rest/collection/example_3-catalogs/catalogs/199/media/images/199-3/svc:tesseract/full/full/0/default.jpg
 ```
+For a demo of it from a random digital file, run this command:
+```
+curl -H accept:application/hocr+xml https://digital.ucdavis.edu/fcrepo/rest/collection/sherry-lehmann/catalogs/d7f305/media/svc:tesseract/full/full/0/default.jpg
+```
+For a demo with just a random image from the repo, run:
+```
+curl -H accept:application/hocr+xml https://digital.ucdavis.edu/fcrepo/rest/collection/sherry-lehmann/catalogs/d7q30n/media/images/d7q30n-002/svc:tesseract/full/full/0/default.jpg
