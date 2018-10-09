@@ -52,5 +52,5 @@ sudo ./collection/example_3-catalogs/import.sh
 ### Getting Sample Tesseract Data
 1. Run this command.
 ```
-curl -H accept:application/hocr+xml http://localhost:3000/fcrepo/rest/collection/example_3-catalogs/catalogs/199/media/images/199-3/svc:tesseract/full/full/0/default.jpg^C
+curl -H accept:application/hocr+xml http://localhost:3000/fcrepo/rest/collection/example_3-catalogs/catalogs/199/media/images/199-3/svc:tesseract/full/full/0/default.jpg
 ```
