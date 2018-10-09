@@ -17,6 +17,6 @@ const genericHandler = (req, res, next) => {
 };
 
 // create a new teacher or student
-router.post('/ldp', validateRequest, genericHandler);
+router.post('/2', validateRequest, genericHandler);
 
 module.exports = router;

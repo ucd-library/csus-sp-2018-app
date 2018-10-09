@@ -43,6 +43,6 @@ const ldp_post_schema = Joi.object().keys({
 });
 
 module.exports = {
-    '/tesseract': tesseract_get_schema,
-    '/ldp': ldp_post_schema
+    '/1' : tesseract_get_schema,
+    '/2' : ldp_post_schema
 };

@@ -17,6 +17,6 @@ const genericHandler = (req, res, next) => {
 };
 
 // create a new teacher or student
-router.post('/tesseract', validateRequest, genericHandler);
+router.post('/1', validateRequest, genericHandler);
 
 module.exports = router;
