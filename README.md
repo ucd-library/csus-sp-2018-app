@@ -2,7 +2,7 @@
 
 ----
 ### Creating Local UC Davis LDP instance:
-1. git clone https://github.com/UCDavisLibrary/fin-example-repository.git
+1. `git clone https://github.com/UCDavisLibrary/fin-example-repository.git`
 2. Run `sudo apt install npm`
 2. Run `sudo sysctl -w vm.max_map_count=262144`
 2. Add fin-cli `npm install -g @ucd-lib/fin-cli`
