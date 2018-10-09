@@ -6,7 +6,7 @@
 2. Run `sudo apt install npm`
 2. Run `sudo sysctl -w vm.max_map_count=262144`
 2. Add fin-cli `sudo npm install -g @ucd-lib/fin-cli`
-2. Add this code to fin-example-repository/conf/default_services.js
+2. Add this code to fin-example-repository/conf/default-services.js
 ```https://github.com/ucd-library/csus-sp-2018-app/issues
   { 
     id : 'tesseract',
