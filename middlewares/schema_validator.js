@@ -5,7 +5,7 @@ const Schemas = require('../models/schemas');
 module.exports = (useJoiError = false) => {
     const _useJoiError = _.isBoolean(useJoiError) && useJoiError;
 
-    const _supportedMethods  = ['post', 'put'];
+    const _supportedMethods  = ['post', 'put', 'get'];
 
     const _validationOptions = {
         abortEarly: false, // abort after the last validation error

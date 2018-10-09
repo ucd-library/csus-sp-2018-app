@@ -3,8 +3,6 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
-const Routes = require('./routes');
-
 // Instantiate an express object
 const app = express();
 const port = 5000;
@@ -24,12 +22,12 @@ app.get('/', function(req, res){
 });
 
 // localhost:3000/tesseract or /ldp implementation
-app.use('/tesseract', tesseract);
-app.use('/ldp', ldp);
+//app.use('/tesseract', tesseract);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
-app.use('/', Routes);
+app.use('/tesseract', tesseract);
+app.use('/ldp', ldp);
 
 app.listen(port, () => console.log(`App running on port ${port}!`));

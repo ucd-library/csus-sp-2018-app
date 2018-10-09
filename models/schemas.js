@@ -17,7 +17,7 @@ them as far as using them to get to Tesseract, OR using them to
 send to the LDP.
 */
 
-const tesseract_post_schema = Joi.object().keys({
+const tesseract_get_schema = Joi.object().keys({
     image_path : Joi.string().required(),
     cropped_image_width : cropped_img,
     cropped_image_height : cropped_img,
@@ -43,6 +43,6 @@ const ldp_post_schema = Joi.object().keys({
 });
 
 module.exports = {
-    '/tesseract_post': tesseract_post_schema,
-    '/ldp_post': ldp_post_schema
+    '/tesseract': tesseract_get_schema,
+    '/ldp': ldp_post_schema
 };

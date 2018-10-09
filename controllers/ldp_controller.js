@@ -1,23 +1,22 @@
-var express = require('express');
-var router = express.Router();
-var ldp = require('../models/ldp_model')
-var fs = require('fs')
+/* ldp_controller.js */
 
+const express = require('express');
+const router = express.Router();
+const SchemaValidator = require('../middlewares/schema_validator');
 
-router.get('/', function(req, res){
-/*
-    data = ldp_get()
-    if(!unit_test(data)){
-        package error in receiving from UC Davis LDP
-        Reget package
-        retest
-    }
-*/
+// We are using the formatted Joi Validation error
+// Pass false as argument to use a generic error
+const validateRequest = SchemaValidator(true);
 
-});
-router.post('/', function(req, res){
-    res.send('Posting to ldp');
-});
+// generic route handler
+const genericHandler = (req, res, next) => {
+    res.json({
+        status: 'success',
+        data: req.body
+    });
+};
 
-//export this router to use in our index.js
+// create a new teacher or student
+router.post('/ldp', validateRequest, genericHandler);
+
 module.exports = router;

@@ -1,24 +1,22 @@
-var express = require('express');
-var tesseract = require('../models/tesseract_model')
-var router = express.Router();
+/* tesseract_controller.js */
 
-// router.get('/', function(req, res){
-//     res.send('Getting from tesseract.');
-// });
+const express = require('express');
+const router = express.Router();
+const SchemaValidator = require('../middlewares/schema_validator');
 
-router.post('/', function(req, res){
-/*
-    // Client is the requester. Get the data that was sent by them
-    data_from_client = req.body()
+// We are using the formatted Joi Validation error
+// Pass false as argument to use a generic error
+const validateRequest = SchemaValidator(true);
 
-    // Taking data_from_client and sending it to tesseract. Then storing tesseract response
-    response_from_tesseract = tesseract.post(data)
+// generic route handler
+const genericHandler = (req, res, next) => {
+    res.json({
+        status: 'success',
+        data: req.body
+    });
+};
 
-    // Send data back to client for correction
-    res.send(response_from_tesseract)
+// create a new teacher or student
+router.post('/tesseract', validateRequest, genericHandler);
 
-*/
-});
-
-//export this router to use in our index.js
 module.exports = router;
