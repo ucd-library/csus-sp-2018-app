@@ -48,3 +48,9 @@ sudo ./collection/example_3-catalogs/import.sh
 2. Get into our repo locally `cd csus-sp-2018-app`
 3. Run `npm install` to bring all the dependencies from the `package.json` 
 4. Run `node server.js` to start it up
+
+### Getting Sample Tesseract Data
+1. Run this command.
+```
+curl -H accept:application/hocr+xml http://localhost:3000/fcrepo/rest/collection/example_3-catalogs/catalogs/199/media/images/199-3/svc:tesseract/full/full/0/default.jpg^C
+```
