@@ -74,6 +74,7 @@ Format: {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{qu
   rotation:   0 - 360 or !0 - !360 to mirror image before roation
   quality:    default, gray (for grayscale), or bitonal (just black and white, high contrast)
   format:     jpg, tif, png, gif, jp2, pdf, webp
- ```
+
 Ex: http://www.example.org/image-service/abcd1234/100,30,150,50/full/0/default.jpg
-Documentation: `https://iiif.io/api/image/2.0/#image-request-uri-syntax`
+```
+`Documentation:` https://iiif.io/api/image/2.0/#image-request-uri-syntax
