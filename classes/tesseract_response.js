@@ -1,0 +1,1 @@
+// todo: create class representation of response data from image ran through tesseract process

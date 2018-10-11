@@ -1,24 +1,25 @@
-
-/* tesseract_controller.js */
-
 const express = require('express');
 const router = express.Router();
-const SchemaValidator = require('../middlewares/schema_validator');
+const { celebrate, Joi, errors } = require('celebrate');
+const tesseract_request_schema = require('../middlewares/validation/joi_schemas/tesseract_schemas').tesseract_request_schema;
+const tesseract_model = require('../models/tesseract_model')
 
-// We are using the formatted Joi Validation error
-// Pass false as argument to use a generic error
-const validateRequest = SchemaValidator(true);
+const request = require('request')
 
-// generic route handler
-const genericHandler = (req, res, next) => {
-    res.json({
-        status: 'success',
-        data: req.body
-    });
-};
+/**
+ * On route https://localhost:3000/tesseract
+ * Validate the passed data against tesseract_schema, see middlewares/validation/tesseract_schema.js.
+ * On successful validation, instantiate an instance of the class tesseract_data
+ */
+router.post('/',
+    celebrate({body : tesseract_request_schema}),
 
-// create a new teacher or student
-router.post('/1', validateRequest, genericHandler);
+    function (req, res) {
+        query = tesseract_model.get_query(req.body)
+
+        res.send(query)
+
+});
 
 
 module.exports = router;
