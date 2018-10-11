@@ -70,6 +70,7 @@ class tesseract_request {
     }
 
     generate_tesseract_query(server){
+        // todo: document function
         // {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
         let schema = 'https'
 
