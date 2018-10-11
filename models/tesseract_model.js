@@ -1,34 +1,22 @@
-const joi = require('joi')
-const request = require('request')
+const express = require('express');
+const router = express.Router();
+const tesseract_request = require('../classes/tesseract_request').class;
 
-exports.get = function(user, text, cb) {
-    const options = {
-        url: 'http://localhost:3000/fcrepo/rest/collection/example_3-catalogs/catalogs/199/media/images/199-3/svc:tesseract/full/full/0/default.jpg',
-        method: 'POST',
-        headers: {
-            'Accept': 'application/hocr+xml',
-            'Accept-Charset': 'utf-8',
-            'User-Agent': 'Chrome/67.0.3396.99'
-        }
-    };
+exports.get_query = function(body){
+    let data_instance = new tesseract_request(
+        body['image_path'],
+        body['box_x_loc'],
+        body['box_y_loc'],
+        body['box_width'],
+        body['box_height'],
+        body['rotation_angle']
+    )
 
-    // Call request api. Pass the options variable.
-    // The return of the function is going be
-    //  err: if true, there was an error
-    //  res: headers, other metadata
-    //  body: the body of the HTTP request
-    request(options, function(err, res, body) {
-        tesseract_data = body
+    let tesseract_query = data_instance.generate_tesseract_query('localhost:3000')
 
-        //todo create data parser function called parse_tesseract_data(data) ---> parsed_data
-
-        parsed_data = parse_tesseract_data(tesseract_data)
-
-        return parsed_data
-    });
+    return tesseract_query
 }
 
-function parse_tesseract_data(data) {
-    //parse data with package
-    return parsed_data
-}
+// todo: get_response. Getting and parsing response from tesseract to send back to client
+
+

@@ -1,5 +1,7 @@
 /* ldp_controller.js */
 
+// todo: write logic for getting and posting to LDP
+
 const express = require('express');
 const router = express.Router();
 const SchemaValidator = require('../middlewares/schema_validator');
