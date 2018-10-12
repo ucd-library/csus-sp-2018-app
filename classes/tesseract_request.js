@@ -76,14 +76,16 @@ class tesseract_request {
         let prefix = 'fcrepo/rest'
         let identifier = this.image_path
 
+        let svc = 'svc:tesseract'
+
         let box_dims_to_delmit = [this.box_x_loc, this.box_y_loc, this.box_width, this.box_height]
         let region = box_dims_to_delmit.join(',')
 
         let size = 'full'
         let rotation = this.rotation_angle
-        let quality = 'full'
+        let quality = 'default'
 
-        let url_params_to_delimit = [prefix, identifier, region, size, rotation, quality]
+        let url_params_to_delimit = [server, prefix, identifier, svc, region, size, rotation, quality]
         let url_params = url_params_to_delimit.join('/')
 
         let format = 'jpg'

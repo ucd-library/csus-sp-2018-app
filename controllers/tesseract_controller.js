@@ -15,11 +15,16 @@ router.post('/',
     celebrate({body : tesseract_request_schema}),
 
     function (req, res) {
-        query = tesseract_model.get_query(req.body)
+        query = tesseract_model.query_tesseract(req.body)
+        console.log(query)
 
-        res.send(query)
-
+        request.get(query, {accept: 'application/hocr+xml'}, function (error, response, body) {
+                if (error) {
+                        throw error
+                }
+                res.send(body)
+        })
 });
 
 
-module.exports = router;
+module.exports = router
