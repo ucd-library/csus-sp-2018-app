@@ -28,8 +28,4 @@ class tesseract_response {
     get tesseract_request() {
         return this._tesseract_request;
     }
-
-    set tesseract_request(value) {
-        this._tesseract_request = value;
-    }
 }
