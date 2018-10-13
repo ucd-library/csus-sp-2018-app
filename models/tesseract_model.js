@@ -3,7 +3,7 @@ const router = express.Router();
 const tesseract_request = require('../classes/tesseract_request').class;
 const request = require('request')
 
-exports.query_tesseract = function(body){
+exports.query_tesseract = function(body, host){
     let data_instance = new tesseract_request(
         body['image_path'],
         body['box_x_loc'],
@@ -13,11 +13,7 @@ exports.query_tesseract = function(body){
         body['rotation_angle']
     )
 
-    let local_host = 'localhost:3000'
-    let uc_davis = 'digital.ucdavis.edu'
-    return data_instance.generate_tesseract_query(uc_davis)
-
-
+    return data_instance.generate_tesseract_query(host)
 
 }
 
