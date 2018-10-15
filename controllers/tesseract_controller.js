@@ -3,6 +3,7 @@ const router = express.Router();
 const { celebrate, Joi, errors } = require('celebrate');
 const tesseract_request_schema = require('../middlewares/validation/joi_schemas/tesseract_schemas').tesseract_request_schema;
 const tesseract_model = require('../models/tesseract_model')
+const config = require('../config')
 
 const request = require('request')
 
@@ -15,11 +16,16 @@ router.post('/',
     celebrate({body : tesseract_request_schema}),
 
     function (req, res) {
-        query = tesseract_model.get_query(req.body)
+        query = tesseract_model.query_tesseract(req.body, config.uc_davis_domain)
+        console.log(query);
 
-        res.send(query)
-
+        request.get(query, {accept: 'application/hocr+xml'}, function (error, response, body) {
+                if (error) {
+                        throw error
+                }
+                res.send(body);
+        });
 });
 
 
-module.exports = router;
+module.exports = router
