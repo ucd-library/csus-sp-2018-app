@@ -13,18 +13,23 @@ const request = require('request')
  * On successful validation, instantiate an instance of the class tesseract_data
  */
 router.post('/',
-    celebrate({body : tesseract_request_schema}),
+    // celebrate({body : tesseract_request_schema}),
 
     function (req, res) {
         query = tesseract_model.query_tesseract(req.body, config.uc_davis_domain)
-        console.log(query);
 
-        request.get(query, {accept: 'application/hocr+xml'}, function (error, response, body) {
-                if (error) {
-                        throw error
+        options = {
+                method: 'GET',
+                headers:{
+                        Accept: 'application/hocr+xml'
                 }
-                res.send(body);
-        });
+        }
+        request(query, options, function (error, response, body) {
+            console.log(body)
+        })
+
+
+
 });
 
 

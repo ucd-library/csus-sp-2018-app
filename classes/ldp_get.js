@@ -1,6 +1,8 @@
 // todo: Correct this class for use in getting from ldp
+// todo: Change this to match Google Vision format
 
 class image_object_class {
+    //Pass an object of the fields instead of fields
     constructor(user, image_path, image_file, img_height, img_width, rotation_angle,
                 auth_token, create_time_stamp, last_updated_time_stamp, box_list) {
         this._user = user;
@@ -9,10 +11,11 @@ class image_object_class {
         this._img_height = img_height;
         this._img_width = img_width;
         this._rotation_angle = rotation_angle;
-        this._auth_token = auth_token;
+        // this._auth_token = auth_token;
         this._create_time_stamp = create_time_stamp;
         this._last_updated_time_stamp = last_updated_time_stamp;
         this._box_list = box_list;
+    //
     }
 
     get user() {
