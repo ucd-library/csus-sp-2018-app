@@ -1,7 +1,6 @@
 class tesseract_request {
 
     /**
-     *
      * @class tesseract_request
      * @description Object representation of data needed for a tesseract call
      * @property {string} image_path - LDP path to image
@@ -20,7 +19,7 @@ class tesseract_request {
         this._rotation_angle = rotation_angle;
     }
 
-
+    // todo: Adding type checking on setters
     get image_path() {
         return this._image_path;
     }
@@ -72,7 +71,7 @@ class tesseract_request {
     generate_tesseract_query(server){
         // todo: document function
         // {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
-        let schema = 'https'
+        let schema = 'http'
 
         let prefix = 'fcrepo/rest'
         let identifier = this.image_path
@@ -86,7 +85,10 @@ class tesseract_request {
         let rotation = this.rotation_angle
         let quality = 'default'
 
+
         let url_params_to_delimit = [server, prefix, identifier, svc, region, size, rotation, quality]
+
+
         let url_params = url_params_to_delimit.join('/')
 
         let format = 'jpg'

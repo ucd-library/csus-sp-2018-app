@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const tesseract_request = require('../classes/tesseract_request').class;
 const request = require('request')
+const config = require('../config')
 
 exports.query_tesseract = function(body, host){
     let data_instance = new tesseract_request(
@@ -14,6 +15,7 @@ exports.query_tesseract = function(body, host){
     )
 
     return data_instance.generate_tesseract_query(host)
+
 
 }
 
