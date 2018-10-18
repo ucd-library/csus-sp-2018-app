@@ -13,11 +13,11 @@ const request = require('request')
  * On successful validation, instantiate an instance of the class tesseract_data
  */
 router.post('/',
-    // celebrate({body : tesseract_request_schema}),
+    celebrate({body : tesseract_request_schema}),
 
     function (req, res) {
         query = tesseract_model.query_tesseract(req.body, config.uc_davis_domain)
-
+        console.log("Query to Tesseract:", query)
         options = {
                 method: 'GET',
                 headers:{

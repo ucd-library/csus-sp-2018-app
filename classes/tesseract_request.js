@@ -3,20 +3,27 @@ class tesseract_request {
     /**
      * @class tesseract_request
      * @description Object representation of data needed for a tesseract call
-     * @property {string} image_path - LDP path to image
-     * @property {number} box_x_loc The horizontal location of the the top left point of the bounding box (in pixels).
-     * @property {number} box_y_loc The vertical location of the the top left point of the bounding box (in pixels).
-     * @property {number} box_width The width of the bounding box (in pixels).
-     * @property {number} box_height The height of the bounding box (in pixels).
-     * @property {number} rotation_angle The angle that the image should be rotated at. (0-359)
+     * @property {string} optiosn.image_path - LDP path to image
+     * @property {number} optiosn.box_x_loc The horizontal location of the the top left point of the bounding box (in pixels).
+     * @property {number} optiosn.box_y_loc The vertical location of the the top left point of the bounding box (in pixels).
+     * @property {number} optiosn.box_width The width of the bounding box (in pixels).
+     * @property {number} optiosn.box_height The height of the bounding box (in pixels).
+     * @property {number} optiosn.rotation_angle The angle that the image should be rotated at. (0-359)
      */
-    constructor(image_path, box_x_loc, box_y_loc, box_width, box_height, rotation_angle){
-        this._image_path = image_path;
-        this._box_x_loc = box_x_loc;
-        this._box_y_loc = box_y_loc;
-        this._box_width = box_width;
-        this._box_height = box_height;
-        this._rotation_angle = rotation_angle;
+    constructor(options){
+        console.log(options)
+        this._image_path = options.image_path;
+        this._box_x_loc = options.box_x_loc;
+        this._box_y_loc = options.box_y_loc;
+        this._box_width = options.box_width;
+        this._box_height = options.box_height;
+
+        if (options.rotation_angle){
+            this.rotation_angle = options.rotation_angle;
+        }else{
+            this.rotation_angle = 0
+        }
+
     }
 
     // todo: Adding type checking on setters
@@ -65,7 +72,7 @@ class tesseract_request {
     }
 
     set rotation_angle(value) {
-        this._rotaettion_angle = value;
+        this._rotation_angle = value;
     }
 
     generate_tesseract_query(server){
