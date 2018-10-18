@@ -13,8 +13,17 @@ class tesseract_response {
 
     constructor(ocr_data, tesseract_request){
 
+        this._parsed_data = null;
         this._ocr_data = ocr_data;
         this._tesseract_request = tesseract_request;
+    }
+
+    set parsed_data(value) {
+        this._parsed_data = value
+    }
+
+    get parsed_data(){
+        return this._parsed_data
     }
 
     get ocr_data() {
