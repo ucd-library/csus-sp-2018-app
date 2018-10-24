@@ -26,9 +26,18 @@ module.exports = {
         use: [
           'file-loader',
           { loader: "style-loader" },
-          { loader: "css-loader" }
-        ]
+          { loader: "css-loader" },
+        ],
+      },
+    {
+      test: /\.(html)$/,
+      use: {
+        loader: 'html-loader',
+        options: {
+          attrs: [':data-src']
+        }
       }
-    ]
+    }
+  ]
   }
 }
