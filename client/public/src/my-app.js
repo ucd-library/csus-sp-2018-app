@@ -22,151 +22,129 @@ import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import './my-icons.js';
+import leaflet from 'leaflet';
+import leafletDraw from 'leaflet-draw';
+import leafletCss from 'leaflet/dist/leaflet.css';
 
-// Gesture events like tap and track generated from touch will not be
-// preventable, allowing for better scrolling performance.
-setPassiveTouchGestures(true);
-
-// Set Polymer's root path to the same value we passed to our service worker
-// in `index.html`.
-setRootPath(MyAppGlobals.rootPath);
 
 class MyApp extends PolymerElement {
   static get template() {
-    return html`
-      <style>
-        :host {
-          --app-primary-color: #4285f4;
-          --app-secondary-color: black;
-
-          display: block;
-        }
-
-        app-drawer-layout:not([narrow]) [drawer-toggle] {
-          display: none;
-        }
-
-        app-header {
-          color: #fff;
-          background-color: var(--app-primary-color);
-        }
-
-        app-header paper-icon-button {
-          --paper-icon-button-ink-color: white;
-        }
-
-        .drawer-list {
-          margin: 0 20px;
-        }
-
-        .drawer-list a {
-          display: block;
-          padding: 0 16px;
-          text-decoration: none;
-          color: var(--app-secondary-color);
-          line-height: 40px;
-        }
-
-        .drawer-list a.iron-selected {
-          color: black;
-          font-weight: bold;
-        }
-      </style>
-
-      <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
-      </app-location>
-
-      <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
-      </app-route>
-
-      <app-drawer-layout fullbleed="" narrow="{{narrow}}">
-        <!-- Drawer content -->
-        <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
-          <app-toolbar>Menu</app-toolbar>
-          <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="view1" href="[[rootPath]]view1">View One</a>
-            <a name="view2" href="[[rootPath]]view2">View Two</a>
-            <a name="view3" href="[[rootPath]]view3">View Three</a>
-          </iron-selector>
-        </app-drawer>
-
-        <!-- Main content -->
-        <app-header-layout has-scrolling-region="">
-
-          <app-header slot="header" condenses="" reveals="" effects="waterfall">
-            <app-toolbar>
-              <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
-              <div main-title="">My App</div>
-            </app-toolbar>
-          </app-header>
-
-          <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
-            <my-view1 name="view1"></my-view1>
-            <my-view2 name="view2"></my-view2>
-            <my-view3 name="view3"></my-view3>
-            <my-view404 name="view404"></my-view404>
-          </iron-pages>
-        </app-header-layout>
-      </app-drawer-layout>
-    `;
+        let tag = document.createElement('template');
+        tag.innerHTML = `<style>${leafletCss}</style>${template}`;
+        return tag;
+    // return html`
+    //  <div id="map" style='width: 900px; height: 500px'></div>
+    // `
+    // ;
   }
+  ready(){
+      super.ready();
+      const map = L.map(this.$.map, { drawControl: true , crs: L.CRS.Simple});
+      const iiif_svc = 'svc:iiif/full/full/0/default.jpg';
+      const tsrct = 'svc:tesseract/full/full/0/default.jpg';
+      const scaler = 10; //scale difference between pixels and lat/lon
 
-  static get properties() {
-    return {
-      page: {
-        type: String,
-        reflectToAttribute: true,
-        observer: '_pageChanged'
-      },
-      routeData: Object,
-      subroute: Object
-    };
-  }
+      var img_host = 'https://digital.ucdavis.edu/fcrepo/rest/';
+      var img_loc = 'collection/sherry-lehmann/catalogs/d7q30n/media/images/d7q30n-002';
+      var src = img_host + img_loc + '/' + iiif_svc;
 
-  static get observers() {
-    return [
-      '_routePageChanged(routeData.page)'
-    ];
-  }
+      // Create new image  object, this will allow the pre-caching of the image before it loads into leaflet
+      // This allows us to take the dimensions of the image and use them to define the bounds of the leaflet "map"
+      var img = new Image();
+      var imgH = 0;
+      var imgW = 0;
+      img.addEventListener("load",function(){
+          imgH = this.naturalHeight;
+          imgW = this.naturalWidth;
+          let bounds = [[0,0], [imgH/10, imgW/scaler]];
+          var image = L.imageOverlay(src, bounds).addTo(map);
+          map.fitBounds(bounds);
+      });
+      // this MUST occur after the image load function, or it won't get the dimensions properly
+      img.src = src;
 
-  _routePageChanged(page) {
-     // Show the corresponding page according to the route.
-     //
-     // If no page was found in the route data, page will be an empty string.
-     // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
-    if (!page) {
-      this.page = 'view1';
-    } else if (['view1', 'view2', 'view3'].indexOf(page) !== -1) {
-      this.page = page;
-    } else {
-      this.page = 'view404';
-    }
+      // Add the leaflet draw API to the image to allow the creation of boxes
+      // TODO: remove ability to make shapes other than rectangles
+      var drawnItems = new L.FeatureGroup();
+      map.addLayer(drawnItems);
+      var drawControl = new L.Control.Draw({
+          edit: {
+              featureGroup: drawnItems
+          }
+      });
 
-    // Close a non-persistent drawer when the page & route are changed.
-    if (!this.$.drawer.persistent) {
-      this.$.drawer.close();
-    }
-  }
+      // When a box is drawn on the image, same the box info (corners, dimensions, etc) create JSON object and
+      // send to tesseract
+      map.on('draw:created', function(e) {
+          let type = e.layerType,
+              layer = e.layer;
 
-  _pageChanged(page) {
-    // Import the page component on demand.
-    //
-    // Note: `polymer build` doesn't like string concatenation in the import
-    // statement, so break it up.
-    switch (page) {
-      case 'view1':
-        import('./my-view1.js');
-        break;
-      case 'view2':
-        import('./my-view2.js');
-        break;
-      case 'view3':
-        import('./my-view3.js');
-        break;
-      case 'view404':
-        import('./my-view404.js');
-        break;
-    }
+          let shape = layer.toGeoJSON();
+          let shape_for_db = JSON.stringify(shape);
+          console.log("Shape: " + shape_for_db);
+
+          drawnItems.addLayer(layer);
+
+          let coords = layer.getLatLngs();
+          let box = JSON.stringify(convert(coords));
+          console.log("Box: " + box);
+          post(box);
+      });
+
+
+      // Send created JSON object to server to be run in tesseract
+      // for now, print response to console
+      function post(data){
+          let xhr = new XMLHttpRequest();
+
+          xhr.open("POST", 'tesseract', true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                  console.log(this.responseText);
+              }
+          };
+          xhr.send(data);
+      }
+
+
+      // Convert the coordinates generated by leaflet Draw into a format usable by tesseract
+      // called in "map.on('draw:created', function(e)"
+      function convert(coords){
+
+          // lat = x, lon = y
+          // rectangle drawn clockwise starting with south west corner
+          // points need to be scaled up by 10 to equate to pixels
+          let sw = upscale(coords[0]);
+          let nw = upscale(coords[1]);
+          let ne = upscale(coords[2]);
+          let se = upscale(coords[3]);
+
+          // Round values to remove any decimals, which would confuse tesseract
+          wdth = Math.round(se[0] - sw[0]);
+          hght = Math.round(ne[1] - se[1]);
+
+          // leaflet calculates y as distance from bottom
+          // tesseract y is distance from top
+          // origin y = img height - nothern most y coordinate
+          let x_loc = Math.round(nw[0]);
+          let y_loc = Math.round(imgH - nw[1]);
+
+          return {
+              image_path:img_loc,
+              box_x_loc:x_loc,
+              box_y_loc:y_loc,
+              box_width:wdth,
+              box_height:hght,
+              rotation_angle:0
+          }
+      }
+
+      // scales the coordinates from latLon to pixels
+      function upscale(latLon) {
+          return [latLon["lng"] * scaler, latLon["lat"] * scaler]
+      }
+
   }
 }
 
