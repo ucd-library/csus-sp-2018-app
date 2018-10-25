@@ -57,8 +57,8 @@ class MyApp extends PolymerElement {
       const tsrct = 'svc:tesseract/full/full/0/default.jpg';
       const scaler = 10; //scale difference between pixels and lat/lon
 
-      var img_host = 'https://digital.ucdavis.edu/fcrepo/rest/';
-      var img_loc = 'collection/sherry-lehmann/catalogs/d7q30n/media/images/d7q30n-002';
+      var img_host = 'http://localhost:3000/fcrepo/rest/';
+      var img_loc = 'collection/example_3-catalogs/catalogs/199/media/images/199-3';
       var src = img_host + img_loc + '/' + iiif_svc;
 
       // Create new image  object, this will allow the pre-caching of the image before it loads into leaflet
