@@ -10,7 +10,7 @@ const port = 5000;
 app.set('port', port);
 
 // All static files will be coming from the public folder
-app.use(express.static('public'));
+app.use(express.static('client/public/'));
 
 // Routing files
 var tesseract = require('./controllers/tesseract_controller');
@@ -18,7 +18,7 @@ var tesseract = require('./controllers/tesseract_controller');
 
 // When we first load the server it will send index.html
 app.get('/', function(req, res){
-    res.sendFile("/views/index.html", {root: '.'})
+    res.sendFile("/client/public/index.html", {root: '.'})
 });
 
 // localhost:3000/tesseract or /ldp implementation

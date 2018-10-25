@@ -1,6 +1,4 @@
-// Create our map, set draw control to display drawing toolbar
 
-const map = L.map('map', { drawControl: true , crs: L.CRS.Simple});
 const iiif_svc = 'svc:iiif/full/full/0/default.jpg';
 const tsrct = 'svc:tesseract/full/full/0/default.jpg';
 const scaler = 10; //scale difference between pixels and lat/lon
