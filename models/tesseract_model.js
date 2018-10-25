@@ -1,9 +1,10 @@
 const express = require('express');
 const tesseract_request = require('../classes/tesseract_request').class;
+const tesseract_response = require('../classes/tesseract_response').class;
 
-exports.query_tesseract = function(body, host){
+exports.tesseract_request_object = function(body){
 
-    options = {
+    let options = {
         'image_path': body['image_path'],
         'box_x_loc': body['box_x_loc'],
         'box_y_loc': body['box_y_loc'],
@@ -12,13 +13,15 @@ exports.query_tesseract = function(body, host){
         'rotation_angle': body['rotation_angle']
     }
 
-    let data_instance = new tesseract_request(options)
-
-
-    return data_instance.generate_tesseract_query(host)
-
-
+    return new tesseract_request(options)
 }
 
+exports.tesseract_response_object = function(ocr_data, parsed_data, tesseract_request){
+    options = {
+        'ocr_data': ocr_data,
+        'parsed_data': parsed_data,
+        'tesseract_request': tesseract_request
+    }
 
-
+    return new tesseract_response(options)
+}
