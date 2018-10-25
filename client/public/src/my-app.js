@@ -134,8 +134,8 @@ class MyApp extends PolymerElement {
           let se = upscale(coords[3]);
 
           // Round values to remove any decimals, which would confuse tesseract
-          wdth = Math.round(se[0] - sw[0]);
-          hght = Math.round(ne[1] - se[1]);
+          let wdth = Math.round(se[0] - sw[0]);
+          let hght = Math.round(ne[1] - se[1]);
 
           // leaflet calculates y as distance from bottom
           // tesseract y is distance from top
