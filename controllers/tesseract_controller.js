@@ -1,8 +1,8 @@
 const express = require('express');
-const request = require('request')
+const request = require('request');
 const router = express.Router();
 
-const tesseract_model = require('../models/tesseract_model')
+const tesseract_model = require('../models/tesseract_model');
 
 
 const config = require('../config')
@@ -21,14 +21,14 @@ router.post('/',
 
         query = instance.generate_tesseract_query(config.local_host);
 
-        console.log("Query to Tesseract:", query)
+        console.log("Query to Tesseract:", query);
 
         options = {
                 method: 'GET',
                 headers:{
                         Accept: 'application/hocr+xml'
                 }
-        }
+        };
         request(query, options, function (error, response, body) {
             if (error){
                     throw error;
@@ -45,5 +45,5 @@ router.post('/',
 });
 
 
-module.exports = router
+module.exports = router;
 

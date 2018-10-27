@@ -3,23 +3,46 @@
 // todo: write logic for getting and posting to LDP
 
 const express = require('express');
+const request = require('request');
 const router = express.Router();
-const SchemaValidator = require('../middlewares/schema_validator');
 
+const ldp_model = require('../models/ldp_model');
 
-// We are using the formatted Joi Validation error
-// Pass false as argument to use a generic error
-const validateRequest = SchemaValidator(true);
+const config = require('../config');
 
-// generic route handler
-const genericHandler = (req, res, next) => {
-    res.json({
-        status: 'success',
-        data: req.body
-    });
-};
+/*
+ *
+ * On route localhost:$port/ldp
+ * Validate!
+ * Success? CLASS!
+ *
+ */
 
-// create a new teacher or student
-router.post('/2', validateRequest, genericHandler);
+//TODO Get/Post?
+
+router.post('/',
+    function (req, res) {
+        instance = ldp_model.ldp_class_object(req.body);
+
+        //TODO create generate ldp query in ldp_class
+        query = instance.generate_ldp_query(config.local_host);
+
+        console.log("Query to LDP: ", query);
+
+        options = {
+            method: 'GET'//Post?
+
+        };
+        request(query, options, function (error, response, body){
+            if (error)
+                throw error;
+            else {
+                let response_instance = ldp_model.ldp_class_object(body, instance.options);
+
+                res.send(response_instance.options)
+            }
+        })
+
+});
 
 module.exports = router;
