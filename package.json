@@ -21,7 +21,9 @@
     "morgan": "^1.9.1",
     "request": "^2.88.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ucd-library/csus-sp-2018-app.git"

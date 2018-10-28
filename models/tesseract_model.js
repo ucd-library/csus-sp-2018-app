@@ -19,6 +19,3 @@ exports.query_tesseract = function(body, host){
 
 
 }
-
-
-
