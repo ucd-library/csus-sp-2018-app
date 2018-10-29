@@ -1,23 +1,28 @@
 const express = require('express');
+const request = require('request')
 const router = express.Router();
-const { celebrate, Joi, errors } = require('celebrate');
-const tesseract_request_schema = require('../middlewares/validation/joi_schemas/tesseract_schemas').tesseract_request_schema;
+
 const tesseract_model = require('../models/tesseract_model')
+
+
 const config = require('../config')
 
-const request = require('request')
+
 
 /**
- * On route https://localhost:3000/tesseract
+ * On route https://localhost:5000/tesseract
  * Validate the passed data against tesseract_schema, see middlewares/validation/tesseract_schema.js.
  * On successful validation, instantiate an instance of the class tesseract_data
  */
 router.post('/',
-    celebrate({body : tesseract_request_schema}),
-
     function (req, res) {
-        query = tesseract_model.query_tesseract(req.body, config.uc_davis_domain)
+
+        instance = tesseract_model.tesseract_request_object(req.body);
+
+        query = instance.generate_tesseract_query(config.local_host);
+
         console.log("Query to Tesseract:", query)
+
         options = {
                 method: 'GET',
                 headers:{
@@ -25,7 +30,14 @@ router.post('/',
                 }
         }
         request(query, options, function (error, response, body) {
-            console.log(body)
+            if (error){
+                    throw error;
+            } else {
+
+                let response_instance = tesseract_model.tesseract_response_object(body, 'parsed_data', instance.options);
+
+                res.send(response_instance.options)
+            }
         })
 
 
@@ -34,3 +46,4 @@ router.post('/',
 
 
 module.exports = router
+

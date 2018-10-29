@@ -1,4 +1,6 @@
 const path = require('path')
+var webpack = require('webpack');
+
 
 module.exports = {
   entry: './src/my-app.js',
@@ -21,12 +23,18 @@ module.exports = {
           },
         ],
       },
+
       {
         test: /\.css$/,
         use: [
           'file-loader',
           { loader: "style-loader" },
-          { loader: "css-loader" },
+          {
+            loader: "css-loader",
+            options: {
+              modules: true
+          }
+         },
         ],
       },
     {
