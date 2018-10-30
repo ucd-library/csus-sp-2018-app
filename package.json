@@ -7,13 +7,15 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "celebrate": "^8.0.2",
+    "chai": "^4.2.0",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
     "joi": "^13.7.0",
@@ -21,7 +23,9 @@
     "morgan": "^1.9.1",
     "request": "^2.88.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ucd-library/csus-sp-2018-app.git"

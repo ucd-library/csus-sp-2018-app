@@ -16,6 +16,7 @@ exports.tesseract_request_object = function(body){
     return new tesseract_request(options)
 }
 
+
 exports.tesseract_response_object = function(ocr_data, parsed_data, tesseract_request){
     options = {
         'ocr_data': ocr_data,
@@ -25,3 +26,4 @@ exports.tesseract_response_object = function(ocr_data, parsed_data, tesseract_re
 
     return new tesseract_response(options)
 }
+
