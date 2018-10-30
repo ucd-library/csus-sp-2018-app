@@ -1,25 +1,16 @@
+const joi = require('joi');
+const ldp_class = require('../classes/ldp_class').class;
 
-const joi = require('joi')
-const request = require('request')
-const fs = require('fs')
+exports.ldp_class_object = function (body) {
+    let options = {
+        'user': body['user'],
+        'image_path': body['image_path'],
+        'image_file': body['image_file'],
+        'image_height': body['image_height'],
+        'image_width': body['image_width'],
+        'time_stamp': body['time_stamp'],
+        'box_list': body['box_list']
+    };
 
-exports.get = function () {
-    const options = {
-        url: 'http://localhost:3000/fcrepo/rest/collection/example_3-catalogs/catalogs/199/media/images/199-3/svc:iiif/full/full/0/default.jpg',
-        method: 'GET',
-        headers: {
-            'Accept': 'image/jpeg',
-            'Accept-Charset': 'utf-8',
-            'User-Agent': 'Chrome/67.0.3396.99'
-        }
-    }
-
-    request(options, function(err, res, body) {
-        //todo Transform body of request into a usable image.
-         image = body
-
-    })
-
-}
-
-//todo sending data back to ldp from client
+    return new ldp_class(options);
+};

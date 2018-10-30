@@ -1,4 +1,3 @@
-const express = require('express');
 const tesseract_request = require('../classes/tesseract_request').class;
 const tesseract_response = require('../classes/tesseract_response').class;
 
@@ -17,7 +16,7 @@ exports.tesseract_request_object = function(body){
 }
 
 exports.tesseract_response_object = function(ocr_data, parsed_data, tesseract_request){
-    options = {
+    let options = {
         'ocr_data': ocr_data,
         'parsed_data': parsed_data,
         'tesseract_request': tesseract_request
