@@ -8,7 +8,7 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import { PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils/settings.js';
 // import '@polymer/app-layout/app-drawer/app-drawer.js';
 // import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
@@ -22,11 +22,11 @@ import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils
 // import '@polymer/iron-selector/iron-selector.js';
 // import '@polymer/paper-icon-button/paper-icon-button.js';
 // import './my-icons.js';
-import leaflet from 'leaflet';
+import {style, map}from 'leaflet';
 import leafletDraw from 'leaflet-draw';
-import leafletCss from 'leaflet/dist/leaflet.css';
+import leafletDrawCss from 'leaflet-draw/dist/leaflet.draw-src.css'
+import leafletCss from 'leaflet/dist/leaflet.css'
 import template from './my-app.html'
-//
 // const styleElement = document.createElement('dom-module')
 //
 // styleElement.innerHTML =`
@@ -40,19 +40,17 @@ import template from './my-app.html'
 
 class MyApp extends PolymerElement {
   static get template() {
-        let tag = document.createElement('template');
-        tag.innerHTML = `<style>${leafletCss}</style>${template}`;
-        return tag;
-
-    // return html`
-    //  <div id="map" style='width: 900px; height: 500px'></div>
-    //  <style include='shared-styles'></style>
-    // `
-    ;
-  }
+    let tag = document.createElement('template');
+    tag.innerHTML = `<style>${leafletCss}</style>${template}`;
+    return tag;
+  //   return html `
+  //   <style include='shared-styles'></style>
+  //   <div id='map' style='width: 900px; height: 500px'></div>
+  //   `
+    }
   ready(){
       super.ready();
-      const map = L.map(this.$.map, { drawControl: true , crs: L.CRS.Simple});
+      let map = L.map(this.$.map, { drawControl: true , crs: L.CRS.Simple});
       const iiif_svc = 'svc:iiif/full/full/0/default.jpg';
       const tsrct = 'svc:tesseract/full/full/0/default.jpg';
       const scaler = 10; //scale difference between pixels and lat/lon

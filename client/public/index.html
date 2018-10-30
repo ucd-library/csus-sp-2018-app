@@ -12,7 +12,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Polymer Starter Kit">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
     <title>My App</title>
@@ -29,8 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       Note: If you intend to serve from a non-root path, see [polymer-root-path] below.
     -->
 
-    <!-- <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css"/> -->
-    <!-- <link rel="stylesheet" href="./node_modules/leaflet-draw/leaflet.draw.css"/> -->
+
 
     <base href="/">
 
@@ -69,38 +67,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script> -->
 
-    <script>
-      /**
-      * [polymer-root-path]
-      *
-      * Leave this line unchanged if you intend to serve your app from the root
-      * path (e.g., with URLs like `my.domain/` and `my.domain/view1`).
-      *
-      * If you intend to serve your app from a non-root path (e.g., with URLs
-      * like `my.domain/my-app/` and `my.domain/my-app/view1`), edit this line
-      * to indicate the path from which you'll be serving, including leading
-      * and trailing slashes (e.g., `/my-app/`).
-      */
-      window.MyAppGlobals = { rootPath: '/' };
-
-      // Load and register pre-caching Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('service-worker.js', {
-            scope: MyAppGlobals.rootPath
-          });
-        });
-      }
-    </script>
-
-
-    <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-
+    <!-- <link rel="stylesheet" href="./node_modules/leaflet-draw/dist/leaflet.draw.css"/> -->
     <!-- Load your application shell -->
-
+    <!-- <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css"/> -->
     <script src='./dist/bundle.js'></script>
-
     <!-- Add any global styles for body, document, etc. -->
   </head>
   <body>
