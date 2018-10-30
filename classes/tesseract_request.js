@@ -1,79 +1,51 @@
+const Joi = require('joi')
+const tesseract_schema = require('../middlewares/validation/joi_schemas/tesseract_schemas').tesseract_request_schema
+
+
 class tesseract_request {
 
     /**
      * @class tesseract_request
-     * @description Object representation of data needed for a tesseract call
-     * @property {string} optiosn.image_path - LDP path to image
-     * @property {number} optiosn.box_x_loc The horizontal location of the the top left point of the bounding box (in pixels).
-     * @property {number} optiosn.box_y_loc The vertical location of the the top left point of the bounding box (in pixels).
-     * @property {number} optiosn.box_width The width of the bounding box (in pixels).
-     * @property {number} optiosn.box_height The height of the bounding box (in pixels).
-     * @property {number} optiosn.rotation_angle The angle that the image should be rotated at. (0-359)
+     * @description Object representation of data needed for a tesseract call. Immutable
+     * @property {string} options.image_path - LDP path to image
+     * @property {number} options.box_x_loc The horizontal location of the the top left point of the bounding box (in pixels).
+     * @property {number} options.box_y_loc The vertical location of the the top left point of the bounding box (in pixels).
+     * @property {number} options.box_width The width of the bounding box (in pixels).
+     * @property {number} options.box_height The height of the bounding box (in pixels).
+     * @property {number} options.rotation_angle The angle that the image should be rotated at. (0-359)
      */
     constructor(options){
-        console.log(options)
-        this._image_path = options.image_path;
-        this._box_x_loc = options.box_x_loc;
-        this._box_y_loc = options.box_y_loc;
-        this._box_width = options.box_width;
-        this._box_height = options.box_height;
 
-        if (options.rotation_angle){
+        const validation_result = Joi.validate(options, tesseract_schema);
+        
+        if (validation_result.error){
+            throw new TypeError(validation_result.error);
+        } else {
+            this.image_path = options.image_path;
+            this.box_x_loc = options.box_x_loc;
+            this.box_y_loc = options.box_y_loc;
+            this.box_width = options.box_width;
+            this.box_height = options.box_height;
             this.rotation_angle = options.rotation_angle;
-        }else{
-            this.rotation_angle = 0
         }
 
+        Object.freeze(this);
+
     }
 
-    // todo: Adding type checking on setters
-    get image_path() {
-        return this._image_path;
+    get options(){
+        let options = {
+            'image_path': this.image_path,
+            'box_x_loc': this.box_x_loc,
+            'box_y_loc': this.box_y_loc,
+            'box_width': this.box_width,
+            'box_height': this.box_height,
+            'rotation_angle': this.rotation_angle
+        }
+
+        return options;
     }
 
-    set image_path(value) {
-        this._image_path = value;
-    }
-
-    get box_x_loc() {
-        return this._box_x_loc;
-    }
-
-    set box_x_loc(value) {
-        this._box_x_loc = value;
-    }
-
-    get box_y_loc() {
-        return this._box_y_loc;
-    }
-
-    set box_y_loc(value) {
-        this._box_y_loc = value;
-    }
-
-    get box_width() {
-        return this._box_width;
-    }
-
-    set box_width(value) {
-        this._box_width = value;
-    }
-
-    get box_height() {
-        return this._box_height;
-    }
-
-    set box_height(value) {
-        this._box_height = value;
-    }
-
-    get rotation_angle() {
-        return this._rotation_angle;
-    }
-
-    set rotation_angle(value) {
-        this._rotation_angle = value;
-    }
 
     generate_tesseract_query(server){
         // todo: document function
@@ -81,7 +53,7 @@ class tesseract_request {
         let schema = 'http'
 
         let prefix = 'fcrepo/rest'
-        let identifier = this.image_path
+        let identifier = this.image_path;
 
         let svc = 'svc:tesseract'
 
@@ -89,12 +61,10 @@ class tesseract_request {
         let region = box_dims_to_delmit.join(',')
 
         let size = 'full'
-        let rotation = this.rotation_angle
+        let rotation = this.rotation_angle;
         let quality = 'default'
 
-
         let url_params_to_delimit = [server, prefix, identifier, svc, region, size, rotation, quality]
-
 
         let url_params = url_params_to_delimit.join('/')
 
@@ -106,6 +76,7 @@ class tesseract_request {
     }
 
 }
+
 
 module.exports = {
     class : tesseract_request
