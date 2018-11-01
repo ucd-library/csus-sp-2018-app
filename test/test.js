@@ -49,37 +49,37 @@
 
 */
 
-const chai = require('chai');
-const tesseract_response = require('../classes/tesseract_response.js')
-
-//Determine testing type:
-chai.should();
-
-describe('tesseract_response', () => {
-
-  describe('#constructor()', () => {
-
-  //Test case 1
-  it('requires two numerical arguments', () => {
-     (() => {
-       new tesseract_response.constructor("ocr_data", "tesseract_request");
-     }).should.not.throw(Error);
-   });
-
-   //Test case 1
-   it('one argument error', () => {
-      (() => {
-        new tesseract_response('foo');
-      }).should.throw(Error);
-    });
-
-   //Test case 1
-   it('No argument error', () => {
-       (() => {
-         new tesseract_response();
-       }).should.throw(Error);
-     });
-
-  });
-
-});
+// const chai = require('chai');
+// const tesseract_response = require('../classes/tesseract_response.js')
+//
+// //Determine testing type:
+// chai.should();
+//
+// describe('tesseract_response', () => {
+//
+//   describe('#constructor()', () => {
+//
+//   //Test case 1
+//   it('requires two numerical arguments', () => {
+//      (() => {
+//        new tesseract_response.constructor("ocr_data", "tesseract_request");
+//      }).should.not.throw(Error);
+//    });
+//
+//    //Test case 1
+//    it('one argument error', () => {
+//       (() => {
+//         new tesseract_response('foo');
+//       }).should.throw(Error);
+//     });
+//
+//    //Test case 1
+//    it('No argument error', () => {
+//        (() => {
+//          new tesseract_response();
+//        }).should.throw(Error);
+//      });
+//
+//   });
+//
+// });

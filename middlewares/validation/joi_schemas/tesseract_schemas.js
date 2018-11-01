@@ -1,7 +1,5 @@
 const Joi = require('joi');
 const pos_num = Joi.number().positive().required();
-//todo create google vision api schema for validation of parsed data
-const google_vision_api_schema = null;
 
 const tesseract_request_schema = Joi.object().keys({
     image_path : Joi.string().required(),
@@ -12,28 +10,16 @@ const tesseract_request_schema = Joi.object().keys({
     rotation_angle : Joi.number().min(0).max(359).required()
 });
 
-const tesseract_response_schema = Joi.object().keys({
+const box_data = Joi.object().keys({
 
-    ocr_data: Joi.string().required(),
-    parsed_data: Joi.string().required(), // todo change this to Joi.object().type(google_vision_api_schema) once it is created
-
-    /*
-        Passing the keys of the schema so we are not trying to look for
-        tesseract_request: tesseract_request {
-                                                options
-                                             }
-        And instead look for
-        tesseract_request : {
-            options
-        }
-
-    */
-    tesseract_request: tesseract_request_schema.keys()
-})
-
+    _tesseract_request   : tesseract_request_schema.keys(),
+    _corrected_data      : Joi.string().allow(null),
+    _ocr_data            : Joi.string().required(),
+    _parsed_data         : Joi.string().required(),
+    _box_id              : Joi.number().required()
+});
 
 module.exports = {
     tesseract_request_schema : tesseract_request_schema,
-    tesseract_response_schema: tesseract_response_schema
-
+    box_data: box_data
 }
