@@ -141,7 +141,7 @@ class MyApp extends PolymerElement {
           let x_loc = Math.round(nw[0]);
           let y_loc = Math.round(imgH - nw[1]);
 
-          return {
+          let data_to_return = {
               image_path:img_loc,
               box_x_loc:x_loc,
               box_y_loc:y_loc,
@@ -149,6 +149,10 @@ class MyApp extends PolymerElement {
               box_height:hght,
               rotation_angle:0
           }
+
+          console.log(data_to_return)
+
+          return data_to_return
       }
 
       // scales the coordinates from latLon to pixels

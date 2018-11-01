@@ -1,5 +1,5 @@
-const Joi = require('joi')
-const tesseract_schema = require('../middlewares/validation/joi_schemas/tesseract_schemas').tesseract_request_schema
+const Joi = require('joi');
+const tesseract_schema = require('../middlewares/validation/joi_schemas/tesseract_schemas').tesseract_request_schema;
 
 
 class tesseract_request {
@@ -21,62 +21,59 @@ class tesseract_request {
         if (validation_result.error){
             throw new TypeError(validation_result.error);
         } else {
-            this.image_path = options.image_path;
-            this.box_x_loc = options.box_x_loc;
-            this.box_y_loc = options.box_y_loc;
-            this.box_width = options.box_width;
-            this.box_height = options.box_height;
-            this.rotation_angle = options.rotation_angle;
+            this._image_path = options.image_path;
+            this._box_x_loc = options.box_x_loc;
+            this._box_y_loc = options.box_y_loc;
+            this._box_width = options.box_width;
+            this._box_height = options.box_height;
+            this._rotation_angle = options.rotation_angle;
         }
-
-        Object.freeze(this);
-
-    }
+        Object.freeze(this);  // The whole object to be immutable
+    };
 
     get options(){
-        let options = {
-            'image_path': this.image_path,
-            'box_x_loc': this.box_x_loc,
-            'box_y_loc': this.box_y_loc,
-            'box_width': this.box_width,
-            'box_height': this.box_height,
-            'rotation_angle': this.rotation_angle
+        return {
+            'image_path': this._image_path,
+            'box_x_loc': this._box_x_loc,
+            'box_y_loc': this._box_y_loc,
+            'box_width': this._box_width,
+            'box_height': this._box_height,
+            'rotation_angle': this._rotation_angle
         }
-
-        return options;
-    }
-
+    };
 
     generate_tesseract_query(server){
-        // todo: document function
-        // {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
-        let schema = 'http'
+        /**
+         * @method generate_tesseract_query
+         * @description Generates fully qualified query to send to tesseract based off the instance's parameters. {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
+         *
+         * @property {string} Endpoint for which to send query to.
+         *
+         * @returns {string} Fully qualified tesseract query
+         */
+        let schema = 'http';
 
-        let prefix = 'fcrepo/rest'
-        let identifier = this.image_path;
+        let prefix = 'fcrepo/rest';
+        let identifier = this._image_path;
 
-        let svc = 'svc:tesseract'
+        let svc = 'svc:tesseract';
 
-        let box_dims_to_delmit = [this.box_x_loc, this.box_y_loc, this.box_width, this.box_height]
-        let region = box_dims_to_delmit.join(',')
+        let box_dims_to_delmit = [this._box_x_loc, this._box_y_loc, this._box_width, this._box_height];
+        let region = box_dims_to_delmit.join(',');
 
-        let size = 'full'
-        let rotation = this.rotation_angle;
-        let quality = 'default'
+        let size = 'full';
+        let rotation = this._rotation_angle;
+        let quality = 'default';
 
-        let url_params_to_delimit = [server, prefix, identifier, svc, region, size, rotation, quality]
+        let url_params_to_delimit = [server, prefix, identifier, svc, region, size, rotation, quality];
 
-        let url_params = url_params_to_delimit.join('/')
+        let url_params = url_params_to_delimit.join('/');
 
-        let format = 'jpg'
+        let format = 'jpg';
 
-        let tesseract_query =   schema + '://' + url_params + '.' + format
-
-        return tesseract_query
-    }
-
+        return schema + '://' + url_params + '.' + format;
+    };
 }
-
 
 module.exports = {
     class : tesseract_request
