@@ -61,6 +61,9 @@ class MyApp extends PolymerElement {
       var img_loc = 'collection/example_3-catalogs/catalogs/199/media/images/199-3';
       var src = img_host + img_loc + '/' + iiif_svc;
 
+
+
+
       // Create new image  object, this will allow the pre-caching of the image before it loads into leaflet
       // This allows us to take the dimensions of the image and use them to define the bounds of the leaflet "map"
       var img = new Image();
@@ -74,8 +77,10 @@ class MyApp extends PolymerElement {
       });
       img.src = src;
 
+
+
+
       // Add the leaflet draw API to the image to allow the creation of boxes
-      // TODO: remove ability to make shapes other than rectangles
       var drawnItems = new L.FeatureGroup();
       map.addLayer(drawnItems);
       var drawControl = new L.Control.Draw({
@@ -117,7 +122,7 @@ class MyApp extends PolymerElement {
           post(box);
           var popup = L.popup()
               .setLatLng(this._bounds._northEast)
-              .setContent('<p><button type="button" onclick=post(box)>Send To Tesseract</button></p>')
+              .setContent('<p><button type="button" onclick="post(box)">Send To Tesseract</button></p>')
               .openOn(map);
       }
 
@@ -149,25 +154,28 @@ class MyApp extends PolymerElement {
 
           // leaflet calculates y as distance from bottom
           // tesseract y is distance from top
-          // origin y = img height - nothern most y coordinate
+          // origin y = img height - northern most y coordinate
           let x_loc = Math.round(nw[0]);
           let y_loc = Math.round(imgH - nw[1]);
 
-          return {
+          let data_to_return = {
               image_path:img_loc,
               box_x_loc:x_loc,
               box_y_loc:y_loc,
               box_width:wdth,
               box_height:hght,
               rotation_angle:0
-          }
+          };
+
+          console.log(data_to_return);
+
+          return data_to_return
       }
 
       // scales the coordinates from latLon to pixels
       function upscale(latLon) {
           return [latLon["lng"] * scaler, latLon["lat"] * scaler]
       }
-
   }
 }
 
