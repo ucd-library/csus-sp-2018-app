@@ -17,7 +17,7 @@ class tesseract_request {
     constructor(options){
 
         const validation_result = Joi.validate(options, tesseract_schema);
-        
+
         if (validation_result.error){
             throw new TypeError(validation_result.error);
         } else {
