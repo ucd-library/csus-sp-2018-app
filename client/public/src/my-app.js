@@ -165,9 +165,11 @@ class MyApp extends PolymerElement {
               box_width:wdth,
               box_height:hght,
               rotation_angle:0
+
           };
 
           console.log(data_to_return);
+
 
           return data_to_return
       }
