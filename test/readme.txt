@@ -1,5 +1,5 @@
-/*
-  Written by Ehsan
+
+ Written by Ehsan
 
 
   documentations:
@@ -10,7 +10,8 @@
   https://www.youtube.com/watch?v=MLTRHc5dk6s
   https://medium.com/@madhanganesh/how-to-mock-es6-class-749da63268fc
   https://medium.com/the-web-tub/mocha-chai-js-unit-testing-for-es6-with-istanbul-code-coverage-11b2a141a446
-  
+  https://stackoverflow.com/questions/21396524/what-is-the-difference-between-assert-expect-and-should-in-chai
+
 
  ----------------------------------------------------------------
   to install:
@@ -46,40 +47,3 @@
      });
    });
  });
-
-*/
-
-// const chai = require('chai');
-// const tesseract_response = require('../classes/tesseract_response.js')
-//
-// //Determine testing type:
-// chai.should();
-//
-// describe('tesseract_response', () => {
-//
-//   describe('#constructor()', () => {
-//
-//   //Test case 1
-//   it('requires two numerical arguments', () => {
-//      (() => {
-//        new tesseract_response.constructor("ocr_data", "tesseract_request");
-//      }).should.not.throw(Error);
-//    });
-//
-//    //Test case 1
-//    it('one argument error', () => {
-//       (() => {
-//         new tesseract_response('foo');
-//       }).should.throw(Error);
-//     });
-//
-//    //Test case 1
-//    it('No argument error', () => {
-//        (() => {
-//          new tesseract_response();
-//        }).should.throw(Error);
-//      });
-//
-//   });
-//
-// });
