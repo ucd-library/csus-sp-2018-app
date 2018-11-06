@@ -45,7 +45,7 @@ class tesseract_request {
     generate_tesseract_query(server){
         /**
          * @method generate_tesseract_query
-         * @description Generates fully qualified query to send to tesseract based off the instance's parameters. {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
+         * @description Generates fully qualified query to send to tesseract based off the instance's parameters. {scheme}://{server}{/prefix}/{identifier}/{svc}/{region}/{size}/{rotation}/{quality}.{format}
          *
          * @property {string} Endpoint for which to send query to.
          *
