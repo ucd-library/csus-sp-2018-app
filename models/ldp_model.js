@@ -12,6 +12,7 @@ exports.ldp_request_object = function (body){
         'time_stamp': body['time_stamp'],
         'box_list': body['box_list']
     };
+
     return new ldp_request(options);
 };
 

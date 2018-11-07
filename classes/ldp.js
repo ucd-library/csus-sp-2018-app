@@ -19,7 +19,7 @@ class ldp_class {
             this.time_stamp = options.time_stamp;
             this.box_list = options.box_list;
         }
-
+        //TODO make a method that allows for creation of time stamp on construction and update
         Object.freeze(this.user);
         Object.freeze(this.image_path);
         Object.freeze(this.image_file);
