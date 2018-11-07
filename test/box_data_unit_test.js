@@ -1,6 +1,7 @@
 //Determine testing types:
 let chai = require('chai').should();
 let expect = require('chai').expect;
+const fs = require('fs'); // read files
 
 const box_data = require('../classes/box_data').class;
 const tesseract_request = require('../classes/tesseract_request').class;
@@ -13,7 +14,10 @@ let  box_y_loc = 30;
 let  box_width = 100;
 let  box_height = 200;
 let  rotation_angle = 36;
-let ocr_data = "This is Test";
+
+//Read Sample data files
+let sample_Parsed_Data = fs.readFileSync('test/Sample_Parsed_Data.txt', 'utf8');
+let ocr_data = fs.readFileSync('test/Sample_OCR_Data.txt', 'utf8');
 
 let region = box_x_loc + ',' + box_y_loc + ',' + box_width + ',' + box_height;
 
@@ -30,20 +34,20 @@ let options = {
     'rotation_angle': rotation_angle
 };
 
+
 // Create a new box_data object before every test.
 beforeEach(() => {
   tes_req = new tesseract_request(options);
   boxData = new box_data(ocr_data, tes_req);
-
  });
 
  describe('box_data', () => {
 
    //Test case 1:  tesseract_query()
    describe('#tesseract_query()', () => {
-       //Test case 4
        it('make sure tesseract returns the query', () => {
             //expect(boxData.flattened_data).to.equal("output");
+            //chage it later
             expect(3).to.equal(3);
         });
 
@@ -51,9 +55,9 @@ beforeEach(() => {
 
    //Test case 2: corrected_data()
    describe('#corrected_data()', () => {
-       //Test case 4
        it('Make sure it corrects data', () => {
             //expect(boxData.flattened_data).to.equal("output");
+            //chage it later
             expect(2).to.equal(2);
         });
 
@@ -63,6 +67,7 @@ beforeEach(() => {
    describe('#flattened_data', () => {
        it('Makes not nested objects', () => {
             //expect(boxData.flattened_data).to.equal("output");
+            //chage it later
             expect(1).to.equal(1);
         });
 
