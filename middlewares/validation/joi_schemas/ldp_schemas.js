@@ -1,19 +1,25 @@
-// todo: ldp_get_schema: Validation schema for image received from LDP to send to client
+const Joi = require('joi');
+const pos_num = Joi.number().positive().required();
+const our_string = Joi.string().required();
 
-
-// todo: ldp_post_schema: Validation schema for finalized data from our app to be sent back to LDP
-
-const ldp_post_schema = Joi.object().keys({
-    user : Joi.string().required(),
-    image_path : Joi.string().required(),
-    image_file_type : Joi.any().valid(['jpeg', 'jpg', 'gif', 'pdf', 'png']),
-    img_height : img_size,
-    img_width : img_size,
-    rotation_angle : Joi.number().min(0).max(359).required(),
-    //const auth token?
-    create_time_stamp : time,
-    last_updated_time_stamp : time,
-    original_data : Joi.string(),
-    corrected_data : Joi.string()
-    //TODO do we also put the height and width in here as well?  And how?
+const ldp_schema = Joi.object().keys({
+    user: our_string,
+    image_path: our_string,
+    image_file: our_string,
+    image_height: pos_num,
+    image_width: pos_num,
+    time_stamp: our_string
 });
+
+/*
+
+TODO: box_list needs to be added to the schema with the value being the validation schema for box list.
+I still don't understand how we are going to be validating the box list.
+Are we going to be making sure that the boxes exist?  I thought that the boxes
+are inside of the tesseract objects?
+
+*/
+
+module.exports = {
+    ldp_schema : ldp_schema
+};

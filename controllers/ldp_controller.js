@@ -1,25 +1,34 @@
-/* ldp_controller.js */
-
-// todo: write logic for getting and posting to LDP
-
 const express = require('express');
 const router = express.Router();
-const SchemaValidator = require('../middlewares/schema_validator');
 
+const request = require('request');
 
-// We are using the formatted Joi Validation error
-// Pass false as argument to use a generic error
-const validateRequest = SchemaValidator(true);
+const ldp_model = require('../models/ldp_model');
 
-// generic route handler
-const genericHandler = (req, res, next) => {
-    res.json({
-        status: 'success',
-        data: req.body
-    });
-};
+const config = require('../config');
 
-// create a new teacher or student
-router.post('/2', validateRequest, genericHandler);
+router.post('/',
+    function(req, res) {
+
+        let ldp_request_instance = ldp_model.ldp_request_object(req.body);
+
+        let query = ldp_request_instance.generate_ldp_call(config.local_host)
+
+        console.log("Query to LDP: ", query);
+
+        let options = {
+            method: 'POST'
+        };
+        //Post call?
+        /*
+        request(query, options, function (error, response, body) {
+            if (error){
+                throw error;
+            } else {
+
+            }
+        })*/
+    }
+)
 
 module.exports = router;
