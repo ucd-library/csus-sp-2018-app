@@ -1,19 +1,58 @@
+<link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="../node_modules/leaflet-draw/dist/leaflet.draw.css" />
 
-  <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css"/>
-  <link rel="stylesheet" href="../node_modules/leaflet-draw/dist/leaflet.draw.css"/>
-
-  <style include="shared-styles">
+<style include="shared-styles">
   :host {
     display: block;
 
+
+  }
+
+  #map-container {
     padding: 10px;
-
+    float: left;
   }
-  #map{
+
+  #request {
     margin: auto;
+    background-color: black;
+    color: white;
   }
-  .body {background-color: coral;}
-</style>
-<div id='map' style='width: 900px; height: 500px'>
 
+
+  #header {
+    text-align: center;
+    background-color: #990000;
+    color: white;
+    font-family: georgia;
+    font-size: 26px;
+    padding-bottom: 10px;
+    padding-bottom: 10px;
+    border-radius: 25px;
+  }
+  .struc{
+    display: block;
+  }
+</style>
+
+
+<div id='header'>
+  Tesseract App
+</div>
+<div id='map-container'>
+  <div id='map' style='width: 900px; height: 500px'></div>
+</div>
+<div id='wine-form'>
+  <div class='main'>
+    <form action="#" class="simple-form">
+      <div class='struc'>
+        <label for="name">Name</label>
+        <input type="text">
+      </div>
+      <div class='struc'>
+        <label for="name">Description</label>
+        <input style="height:200px" type="text">
+      </div>
+    </form>
+  </div>
 </div>

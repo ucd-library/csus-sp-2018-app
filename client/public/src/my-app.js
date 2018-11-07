@@ -9,7 +9,7 @@
  */
 
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
-import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils/settings.js';
+// import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils/settings.js';
 // import '@polymer/app-layout/app-drawer/app-drawer.js';
 // import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 // import '@polymer/app-layout/app-header/app-header.js';
@@ -22,10 +22,8 @@ import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils
 // import '@polymer/iron-selector/iron-selector.js';
 // import '@polymer/paper-icon-button/paper-icon-button.js';
 // import './my-icons.js';
-import {style, map}from 'leaflet';
+import leaflet from 'leaflet';
 import leafletDraw from 'leaflet-draw';
-import leafletDrawCss from 'leaflet-draw/dist/leaflet.draw-src.css'
-import leafletCss from 'leaflet/dist/leaflet.css'
 import template from './my-app.html'
 // const styleElement = document.createElement('dom-module')
 //
@@ -38,13 +36,15 @@ import template from './my-app.html'
 // `
 // styleElement.register('shared-styles')
 
+
 class MyApp extends PolymerElement {
+
   static get template() {
     let tag = document.createElement('template');
-    tag.innerHTML = `<style>${leafletCss}</style>${template}`;
+    tag.innerHTML = template;
     return tag;
   //   return html `
-  //   <style include='shared-styles'></style>
+  //   <style include='shared-styles'></style
   //   <div id='map' style='width: 900px; height: 500px'></div>
   //   `
     }
@@ -161,6 +161,9 @@ class MyApp extends PolymerElement {
       }
 
   }
+  // let setShape(shape_for_db){
+  //   shape_for_db = this.shape_for_db;
+  // }
 }
 
 window.customElements.define('my-app', MyApp);
