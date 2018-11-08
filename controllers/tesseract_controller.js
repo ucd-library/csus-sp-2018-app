@@ -5,19 +5,7 @@ const config = require('../config');
 
 const tesseract_model = require('../models/tesseract_model');
 const ldp_model = require('../models/ldp_model');
-
-const test_options = {
-    'user': 'sample user',
-    'image_path': 'collection/example_3-catalogs/catalogs/199/media/images/199-3',
-    'image_file': '199-3.jpg',
-    'image_height': 1000,
-    'image_width': 2000,
-    'time_stamp': new Date().toDateString(),
-    'box_list': []
-}
-
-let ldp_object = ldp_model.ldp_object(test_options)
-
+let ldp_object = null;
 
 
 
@@ -70,6 +58,20 @@ router.put('/', function (req, res) {
 
         res.send(ldp_object)
     })
+});
+
+router.options('/', function (req, res) {
+    let options = {
+        'user': req.body['user'],
+        'image_path': req.body['image_path'],
+        'image_height': null,
+        'image_width': null,
+        'time_stamp': new Date().toDateString(),
+        'box_list': []
+    }
+    ldp_object = ldp_model.ldp_object(options)
+    res.send(ldp_object);
+
 });
 
 module.exports = router;
