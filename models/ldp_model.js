@@ -1,7 +1,7 @@
 const ldp_request = require('../classes/ldp').class;
 const request = require('request');
 
-exports.ldp_request_object = function (body){
+exports.ldp_object = function (body){
 
     let options = {
         'user': body['user'],

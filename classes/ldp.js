@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const ldp_schema = require('../middlewares/validation/joi_schemas/ldp_schema').ldp_schema
+const ldp_schema = require('../middlewares/validation/joi_schemas/ldp_schemas').ldp_schema;
 
 //this should be the LDP that we use.
 
@@ -8,8 +8,8 @@ class ldp_class {
     constructor(options) {
         const validation_request = Joi.validate(options, ldp_schema);
 
-        if (validation_result.error) {
-            throw new TypeError(validation_result.error);
+        if (validation_request.error) {
+            throw new TypeError(validation_request.error);
         } else {
             this.user = options.user;
             this.image_path = options.image_path;
@@ -44,8 +44,25 @@ class ldp_class {
 
         //I still have no Idea what the LDP call actually looks like
     }
+
+    add_to_box_list(box_data){
+        this.box_list.push(box_data);
+
+    }
+
+    delete_box(id_to_delete) {
+        for (let i in this.box_list){
+
+            let box = this.box_list[i];
+
+            if(box['box_id'] ===  id_to_delete){
+
+                this.box_list.splice(i, 1);
+            }
+        };
+    }
 }
 
 module.exports = {
-    class : ldp
+    class : ldp_class
 };
