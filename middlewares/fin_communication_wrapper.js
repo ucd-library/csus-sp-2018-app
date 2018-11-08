@@ -16,17 +16,19 @@ const config = require('../config')
 
 values = {
     username: 'csus',
-    admin: 'false'
+    admin: true
 }
 
 // Want the token to be good for 7 weeks so that way I don't have to worry about reissuing it.
 // We are specifying the issuer for fin to validate against.
 options = {
     expiresIn: '7w',
-    issuer: config.jwt_issuer
+    issuer: 'mylibrary.org'
 }
 
-token = jwt.sign(values, config.jwt_secret, options)
+let secret = 'lax';
+
+token = jwt.sign(values, secret, options)
 
 /*
     The required values to configure fin-node-api are host, basePath, and the jwt.
@@ -46,11 +48,17 @@ config_vals = {
 api.setConfig(config_vals)
 
 // Just specifying a path that I know exists
-path = 'collection/example_3-catalogs'
+// path = 'collection/example_3-catalogs'
+
+
+
+path = '/collection'
+
+
 
 let response = api.get({path});
 
 // Returns a promise. Have to wait for the promise to resolve to get the value
 response.then(function (result) {
-    console.log(result)
+    console.log(result.data.body)
 })
