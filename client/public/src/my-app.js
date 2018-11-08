@@ -184,6 +184,9 @@ class MyApp extends PolymerElement {
       function upscale(latLon) {
           return [latLon["lng"] * scaler, latLon["lat"] * scaler]
       }
+      this.setProperties({
+          text_val: 'test'
+      })
   }
 }
 
