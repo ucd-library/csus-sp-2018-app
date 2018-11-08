@@ -41,13 +41,17 @@ import template from './my-app.html'
 class MyApp extends PolymerElement {
   static get template() {
     let tag = document.createElement('template');
-    tag.innerHTML = `<style>${leafletCss}</style>${template}`;
+    tag.innerHTML = template;
     return tag;
-  //   return html `
-  //   <style include='shared-styles'></style>
-  //   <div id='map' style='width: 900px; height: 500px'></div>
-  //   `
     }
+
+    static get properties() {
+      return {
+        test: { type: String, value: {}, notify: true },
+      }
+    }
+
+
   ready(){
       super.ready();
 
@@ -108,6 +112,8 @@ class MyApp extends PolymerElement {
           xhr.onreadystatechange = function () {
               if (xhr.readyState === 4 && xhr.status === 200) {
                   console.log(this.responseText);
+                  var myObj = JSON.parse(this.responseText);
+                  // this.setProperties({test:myObj._parsed_data});
                   var newWin = open('url','windowName','height=300,width=300');
                   newWin.document.write(this.responseText);
               }
