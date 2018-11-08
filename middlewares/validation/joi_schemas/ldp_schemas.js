@@ -5,9 +5,8 @@ const our_string = Joi.string().required();
 const ldp_schema = Joi.object().keys({
     user: our_string,
     image_path: our_string,
-    image_file: our_string,
-    image_height: pos_num,
-    image_width: pos_num,
+    image_height: Joi.number().positive().allow(null),
+    image_width: Joi.number().positive().allow(null),
     time_stamp: our_string,
     box_list: Joi.any()
 });

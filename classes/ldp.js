@@ -13,7 +13,6 @@ class ldp_class {
         } else {
             this.user = options.user;
             this.image_path = options.image_path;
-            this.image_file = options.image_file;
             this.image_height = options.image_height;
             this.image_width = options.image_width;
             this.time_stamp = options.time_stamp;
@@ -22,7 +21,6 @@ class ldp_class {
         //TODO make a method that allows for creation of time stamp on construction and update
         Object.freeze(this.user);
         Object.freeze(this.image_path);
-        Object.freeze(this.image_file);
         Object.freeze(this.image_height);
         Object.freeze(this.image_width);
     };
