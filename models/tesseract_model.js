@@ -25,13 +25,15 @@ exports.query_tesseract = function(body){
 
     let query = tess_obj.generate_tesseract_query(config.local_host);
 
-    let my_req = request(query, query_options)
+    console.log(query);
+
+    let my_req = request(query, query_options);
 
     return {
         "request": my_req,
         "obj": tess_obj
     }
-}
+};
 
 exports.create_box_data = function (o_data, t_request_data) {
     return new box_data(o_data, t_request_data);
