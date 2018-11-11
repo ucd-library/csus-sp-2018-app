@@ -18,7 +18,7 @@ class ldp_class {
             this.time_stamp = options.time_stamp;
             this.box_list = options.box_list;
         }
-        //TODO make a method that allows for creation of time stamp on construction and update
+
         Object.freeze(this.user);
         Object.freeze(this.image_path);
         Object.freeze(this.image_height);
@@ -29,7 +29,6 @@ class ldp_class {
         return {
             'user': this.user,
             'image_path': this.image_path,
-            'image_file': this.image_file,
             'image_height': this.image_height,
             'image_width': this.image_width,
             'time_stamp': this.time_stamp,
@@ -58,6 +57,16 @@ class ldp_class {
                 this.box_list.splice(i, 1);
             }
         };
+    }
+
+    get_box_ids(){
+        let id_array = [];
+
+        for(let i in this.box_list){
+            let box = this.box_list[i];
+            id_array.push(box['box_id']);
+        }
+        return id_array;
     }
 }
 
