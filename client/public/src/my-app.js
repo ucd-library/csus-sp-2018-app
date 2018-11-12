@@ -59,7 +59,7 @@ class MyApp extends PolymerElement {
       var img_loc = 'collection/example_3-catalogs/catalogs/199/media/images/199-3';
       var src = img_host + img_loc + '/' + iiif_svc;
 
-      request("OPTIONS", {image_path: img_loc, user: "csus"});
+      request("GET", '');
 
 
 
@@ -108,7 +108,7 @@ class MyApp extends PolymerElement {
           var coords = layer.getLatLngs();
           var box = geo_to_pixel(coords[0]);
           //post(box);
-          request("PUT", box);
+          request("POST", box);
 
       });
 
@@ -117,12 +117,25 @@ class MyApp extends PolymerElement {
           var coords = this.getLatLngs();
           var box = geo_to_pixel(coords[0]);
           //post(box);
-          request("POST", box);
+          // request("POST", box);
           var popup = L.popup()
               .setLatLng(this._bounds._northEast)
               .setContent('<p><button type="button" onclick="post(box)">Send To Tesseract</button></p>')
               .openOn(map);
+
+          let clicked_box_id = this.feature.properties.id;
+          let box_list = ldp_data.box_list;
+
+          for(var i in box_list){
+              if (box_list[i]['_box_id'] === clicked_box_id){
+                  console.log(box_list[i]['_parsed_data']);
+                  setData(box_list[i]['_parsed_data']);
+              }
+          }
+
+
           console.log("Box ID: " + this.feature.properties.id);
+
       };
 
 
@@ -179,10 +192,18 @@ class MyApp extends PolymerElement {
           xhr.setRequestHeader("Content-Type", "application/json");
           xhr.onreadystatechange = function () {
               if (xhr.readyState === 4 && xhr.status === 200) {
-                  console.log(this.responseText);
-              }
+                  ldp_data = this.responseText;
+                  console.log(ldp_data);
+              };
           };
           xhr.send(JSON.stringify(data));
+      }
+
+      let self = this;
+      function setData(data){
+          self.setProperties({
+              text_val: data
+          })
       }
 
 
