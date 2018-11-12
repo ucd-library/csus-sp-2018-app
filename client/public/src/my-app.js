@@ -117,12 +117,7 @@ class MyApp extends PolymerElement {
       var clickBox = function(event) {
           var coords = this.getLatLngs();
           var box = geo_to_pixel(coords[0]);
-          //post(box);
-          // request("POST", box);
-          var popup = L.popup()
-              .setLatLng(this._bounds._northEast)
-              .setContent('<p><button type="button" onclick="post(box)">Send To Tesseract</button></p>')
-              .openOn(map);
+
 
           let clicked_box_id = this.feature.properties.id;
           let box_list = ldp_data.box_list;
