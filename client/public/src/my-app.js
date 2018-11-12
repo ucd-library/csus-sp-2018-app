@@ -59,6 +59,9 @@ class MyApp extends PolymerElement {
       var img_loc = 'collection/example_3-catalogs/catalogs/199/media/images/199-3';
       var src = img_host + img_loc + '/' + iiif_svc;
 
+      request("OPTIONS", {image_path: img_loc, user: "csus"});
+
+
 
       var map = L.map(this.$.map, {
           drawControl: false,
@@ -102,6 +105,11 @@ class MyApp extends PolymerElement {
               layer = e.layer;
           layer.on('click', clickBox);
           drawnItems.addLayer(layer);
+          var coords = layer.getLatLngs();
+          var box = geo_to_pixel(coords[0]);
+          //post(box);
+          request("PUT", box);
+
       });
 
 
@@ -109,6 +117,7 @@ class MyApp extends PolymerElement {
           var coords = this.getLatLngs();
           var box = geo_to_pixel(coords[0]);
           //post(box);
+          request("POST", box);
           var popup = L.popup()
               .setLatLng(this._bounds._northEast)
               .setContent('<p><button type="button" onclick="post(box)">Send To Tesseract</button></p>')
@@ -117,7 +126,7 @@ class MyApp extends PolymerElement {
       };
 
 
-      function geo_to_pixel(geo){
+      function geo_to_pixel(geo) {
           let sw = geo[0];
           let nw = geo[1];
           let ne = geo[2];
@@ -125,19 +134,17 @@ class MyApp extends PolymerElement {
 
           let width = Math.round(se['lng'] - sw['lng']);
           let height = Math.round(ne['lat'] - se['lat']);
-          let pixel = [Math.round(nw['lng']), Math.round(imgH - nw['lat'])];
-
-          //return [width,  height,  pixel];
+          let x_coord = Math.round(nw['lng']);
+          let y_coord = Math.round(imgH - nw['lat']);
 
           return {
-              _image_path: img_loc,
-              _box_x_loc: pixel[0],
-              _box_y_loc: pixel[1],
-              _box_width: width,
-              _box_height: height,
-              _rotation_angle: 0
-          }
-
+              image_path: img_loc,
+              box_x_loc: x_coord,
+              box_y_loc: y_coord,
+              box_width: width,
+              box_height: height,
+              rotation_angle: 0
+          };
       }
 
 
@@ -166,22 +173,20 @@ class MyApp extends PolymerElement {
       }
 
 
-      function post(data){
+      function request(call, data){
           let xhr = new XMLHttpRequest();
-
-          xhr.open("POST", 'tesseract', true);
+          xhr.open(call, 'tesseract', true);
           xhr.setRequestHeader("Content-Type", "application/json");
           xhr.onreadystatechange = function () {
               if (xhr.readyState === 4 && xhr.status === 200) {
                   console.log(this.responseText);
-                  var newWin = open('url','windowName','height=300,width=300');
-                  newWin.document.write(this.responseText);
               }
           };
-          xhr.send(data);
+          xhr.send(JSON.stringify(data));
       }
 
-      //tests data
+
+      //test ldp data
       var ldp_data = {
           "user": "sample user",
           "image_path": "collection/example_3-catalogs/catalogs/199/media/images/199-3",
@@ -231,10 +236,6 @@ class MyApp extends PolymerElement {
 
 
       //Todo: write DELETE request
-
-
-      //Todo: write Post request
-
 
   }
 
