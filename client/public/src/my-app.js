@@ -102,24 +102,38 @@ class MyApp extends PolymerElement {
       map.addControl(drawControl);
 
 
-      // Send created JSON object to server to be run in tesseract
-      // for now, print response to console
-      function post(data){
-          let xhr = new XMLHttpRequest();
 
-          xhr.open("POST", 'tesseract', true);
-          xhr.setRequestHeader("Content-Type", "application/json");
-          xhr.onreadystatechange = function () {
-              if (xhr.readyState === 4 && xhr.status === 200) {
-                  console.log(this.responseText);
-                  var myObj = JSON.parse(this.responseText);
-                  // this.setProperties({test:myObj._parsed_data});
-                  var newWin = open('url','windowName','height=300,width=300');
-                  newWin.document.write(this.responseText);
-              }
-          };
-          xhr.send(data);
+    // Send created JSON object to server to be run in tesseract
+    // clean and format response with box ID, store both in an array and print it to HTML field using setProperties
+    let storedResponses = [];
+    function post(data){
+        let xhr = new XMLHttpRequest();
+
+        xhr.open("POST", 'tesseract', true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                //prepare box ID and response, push both to array, then set HTML field to display both.
+                console.log(this.responseText);
+                let parsedData = JSON.parse(this.responseText);
+                let cleanResponse = parsedData._parsed_data.replace(/(\r\n\t|\n|\r\t)/gm,"");
+                let boxID = "Box " + parsedData._box_id + ") \n";
+                storedResponses.push(boxID, cleanResponse, "\n\n");
+                setData(storedResponses.join());
+            }
+        };
+        xhr.send(data);
+
+
+      //set html element to our array of responses
       }
+      let self = this;
+      function setData(data){
+        self.setProperties({
+            text_val: data
+        })
+      }
+
 
 
       var clickBox = function(event) {
@@ -184,9 +198,6 @@ class MyApp extends PolymerElement {
       function upscale(latLon) {
           return [latLon["lng"] * scaler, latLon["lat"] * scaler]
       }
-      this.setProperties({
-          text_val: 'test'
-      })
   }
 }
 
