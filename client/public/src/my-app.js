@@ -105,19 +105,17 @@ class MyApp extends PolymerElement {
           var type = e.layerType,
               layer = e.layer;
           layer.on('click', clickBox);
-          drawnItems.addLayer(layer);
+          //drawnItems.addLayer(layer);
           var coords = layer.getLatLngs();
           var box = geo_to_pixel(coords[0]);
-          //post(box);
           request("POST", box);
-
       });
 
 
       var clickBox = function(event) {
           var coords = this.getLatLngs();
           var box = geo_to_pixel(coords[0]);
-
+          console.log("Clicked box: " + this);
 
           let clicked_box_id = this.feature.properties.id;
           let box_list = ldp_data.box_list;
@@ -143,10 +141,15 @@ class MyApp extends PolymerElement {
           let ne = geo[2];
           let se = geo[3];
 
+          console.log(nw);
+          console.log(se);
+
           let width = Math.round(se['lng'] - sw['lng']);
           let height = Math.round(ne['lat'] - se['lat']);
           let x_coord = Math.round(nw['lng']);
           let y_coord = Math.round(imgH - nw['lat']);
+
+          console.log("created coords: x=" + x_coord + " y=" + y_coord);
 
           return {
               image_path: img_loc,
@@ -166,13 +169,15 @@ class MyApp extends PolymerElement {
 
 
       function draw_to_map(box){
-          var p1 = [box._tesseract_request._box_y_loc,
+          console.log("From LDP :" + box);
+          var p1 = [imgH - box._tesseract_request._box_y_loc,
               box._tesseract_request._box_x_loc
           ];
-          var p2 = [box._tesseract_request._box_y_loc - box._tesseract_request._box_height,
+          var p2 = [imgH - (box._tesseract_request._box_y_loc + box._tesseract_request._box_height),
               box._tesseract_request._box_x_loc + box._tesseract_request._box_width
           ];
           var box_bounds = [p1, p2];
+          console.log(box_bounds);
           var layer = L.rectangle(box_bounds, {color: "red", weight: 1});
 
           var feature = layer.feature = layer.feature || {};
