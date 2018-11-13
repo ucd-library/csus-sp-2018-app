@@ -8,14 +8,22 @@
   }
 
   #map-container {
+    width: 50%;
+    height: 90%;
     padding: 10px;
     float: left;
   }
 
-  #request {
-    margin: auto;
-    background-color: black;
-    color: white;
+  #wine-form {
+    height: inherit;
+    width: 50%;
+    margin-left: 50%;
+    padding: 10px;
+  }
+
+  #map{
+    width: 100%;
+    height: inherit;
   }
 
 
@@ -29,8 +37,33 @@
     padding-bottom: 10px;
     border-radius: 25px;
   }
-  .struc{
+  .input_field{
     display: block;
+    margin: 10px auto;
+    width: 100%;
+  }
+
+  label{
+    display: block;
+    text-align: center;
+  }
+
+  input, textarea{
+    display: block;
+    margin: 0 auto;
+  }
+
+  textarea{
+    height: 50%;
+    width: 75%;
+  }
+
+  form {
+    height: inherit;
+  }
+
+  #ocr_field{
+    height: 100%;
   }
 
 </style>
@@ -40,22 +73,21 @@
   Tesseract App
 </div>
 <div id='map-container'>
-  <div id='map' style='width: 900px; height: 500px'></div>
+  <div id='map'></div>
 </div>
 <div id='wine-form'>
-  <div class='main'>
-    <form action="#" class="simple-form">
-      <div class='struc'>
-        <label for="name">Name</label>
-        <input type="text">
-      </div>
-      <div class='struc'>
-        <label for="name">Description</label>
-        <textarea style="height:200px">
-          {{text_val}}
-        </textarea>
-      </div>
-    </form>
+  <form action="#" class="simple-form">
+    <div class='input_field'>
+      <label for="field_name">Name</label>
+      <input id="field_name" type="text">
+    </div>
+    <div id="ocr_field"  class='input_field'>
+      <label for="field_content">OCR Read Content</label>
+      <textarea id="field_content">
+        {{text_val}}
+      </textarea>
+    </div>
+  </form>
   </div>
 </div>
 <div id='parsed'>
