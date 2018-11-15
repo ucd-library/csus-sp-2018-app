@@ -6,6 +6,7 @@ const request = require('request-promise');
 const config = require('../config');
 const query_options = {
     method: 'GET',
+    timeout: 5000,
     headers:{
         Accept: 'application/hocr+xml'
     }
@@ -23,7 +24,7 @@ exports.query_tesseract = function(body){
 
     let tess_obj = new tesseract_request(tess_options);
 
-    let query = tess_obj.generate_tesseract_query(config.local_host);
+    let query = tess_obj.generate_tesseract_query(config.uc_davis_domain);
 
     console.log(query);
 

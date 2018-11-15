@@ -19,7 +19,6 @@ class ldp_class {
             this.box_list = options.box_list;
         }
 
-        Object.freeze(this.user);
         Object.freeze(this.image_path);
         Object.freeze(this.image_height);
         Object.freeze(this.image_width);

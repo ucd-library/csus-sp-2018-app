@@ -1,15 +1,65 @@
 const express = require('express');
 const router = express.Router();
 const tesseract_model = require('../models/tesseract_model');
+const auth = require('../middlewares/auth')
 const ldp_model = require('../models/ldp_model');
 let ldp_object = null;
+
+router.post('/user/login', function(req, res){
+
+    let request = auth.login(
+        req.body['username'],
+        req.body['password'],
+    );
+
+    request.then(function (response) {
+        if(response.statusCode == '302'){
+            res.send(response.headers);
+        } else {
+           res.status(response.statusCode).send(response.body)
+        }
+
+    }).catch(function(error){
+        throw error;
+    })
+});
+
+router.post('/user/create', function(req, res){
+
+    let request = auth.create_user(
+        req.body['username'],
+        req.body['password'],
+        req.body['email']
+    );
+
+    request.then(function (response) {
+        res.send(response)
+    }).catch(function(error){
+        throw error;
+    })
+});
+
+// router.post('/user/delete', function(req, res){
+//     auth.delete_user
+// });
+
+router.post('/user/info', function(req, res){
+    let request = auth.get_user_info(req.body['username']);
+
+    request.then(function (response) {
+        res.send(response);
+    }).catch(function (error) {
+        throw error;
+    })
+});
+
 
 
 router.get('/init', function (req, res) {
     let query_string = req.query;
 
     let options = {
-        'user': query_string.user,
+        'user': null,
         'image_path': query_string.image_path,
         'image_height': null,
         'image_width': null,
