@@ -6,6 +6,7 @@ const request = require('request-promise');
 const config = require('../config');
 const query_options = {
     method: 'GET',
+    timeout: 5000,
     headers:{
         Accept: 'application/hocr+xml'
     }
