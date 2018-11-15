@@ -18,17 +18,22 @@ class ldp_post {
     }
 
     delete_box(id){
-        let box_list = this._box_list;
+       let box_list = this._box_list;
 
         for (let i = 0; i < box_list.length; i++){
-            if(box_list[i].id === id){
+            //Chenged box_list[i].id
+            if(box_list[i] === id){
                 box_list.splice(i, 1);
             }
         }
+        return box_list; //added return
+
     }
 
     append_box(box){
-        this._box_list = this._box_list.concat(box);
+        // do we have to pass box or id?
+        //this._box_list = this._box_list.concat(box);
+        return this._box_list.concat(box);
     }
 
     override_box(id, box){
@@ -39,5 +44,12 @@ class ldp_post {
                 box_list[i] = box;
             }
         }
+        return box_list; //added return without return it is undefined
     }
 }
+
+//Added This line for testing (Ehsan)
+//Make sure it does not have conflict with others
+module.exports = {
+    class : ldp_post
+};
