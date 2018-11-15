@@ -12,7 +12,7 @@ router.post('/',
 
         let ldp_request_instance = ldp_model.ldp_request_object(req.body);
 
-        let query = ldp_request_instance.generate_ldp_call(config.local_host)
+        let query = ldp_request_instance.generate_ldp_call(config.uc_davis_domain)
 
         console.log("Query to LDP: ", query);
 
