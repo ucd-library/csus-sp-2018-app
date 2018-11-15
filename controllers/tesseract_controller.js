@@ -13,10 +13,11 @@ router.post('/user/login', function(req, res){
     );
 
     request.then(function (response) {
-        if(response.statusCode == '302'){
+        if(response.statusCode == '302'){  //This is the code Davis responds with on successful login for some reason
             res.send(response.headers);
         } else {
-           res.status(response.statusCode).send(response.body)
+            // If any errors just forward them on
+            res.status(response.statusCode).send(response.body)
         }
 
     }).catch(function(error){
@@ -43,6 +44,7 @@ router.post('/user/create', function(req, res){
 //     auth.delete_user
 // });
 
+// todo: need to figure out how to get admin privledges to user
 router.post('/user/info', function(req, res){
     let request = auth.get_user_info(req.body['username']);
 
