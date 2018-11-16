@@ -13,8 +13,8 @@ let  box = 8; //make sure this is correct
 
 let get_box_output = 2;
 let delete_box_output = [1, 2, 4, 5, 6, 7];
-let append_box_output = [ 1, 2, 4, 5, 6, 7, 8 ]
-let override_box_output = [ 1, 2, 4, 5, 6, 7 ]
+let append_box_output = [ 1, 2, 4, 5, 6, 7, 8 ];
+let override_box_output = [ 1, 2, 4, 5, 6, 7 ];
 
 // Create before every test.
 before(() => {
@@ -31,6 +31,7 @@ before(() => {
 
 describe('ldp_post', () => {
 
+    //Fix this test case
     describe('#get_box()', () => {
       //Test case 1
       it('Get box by passing the id', () => {

@@ -91,7 +91,6 @@ class image_object_class {
     }
 
     add_box_to_box_list(box){
-        this._box_list
+        this._box_list;
     }
 }
-
