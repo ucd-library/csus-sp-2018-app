@@ -18,15 +18,15 @@ let  box_height = 200;
 let  rotation_angle = 36;
 
 //Read Sample data files
-let sample_Parsed_Data = fs.readFileSync('test/Sample_Parsed_Data.txt', 'utf8');
+let sample_Parsed_Data = fs.readFileSync('test/Sample_Parsed_Data.txt', 'utf8').match(/([^\\(\\n)"\s]).*([^\\(\\n)"\s])/g)[0];
 let ocr_data = fs.readFileSync('test/Sample_OCR_Data.txt', 'utf8');
 
 let region = box_x_loc + ',' + box_y_loc + ',' + box_width + ',' + box_height;
-let expected_output = 'http://localhost:3000/fcrepo/rest/'+ image_path + '/' +
+let expected_output = 'http://digital.ucdavis.edu/fcrepo/rest/'+ image_path + '/' +
 'svc:tesseract' + '/' + region + '/' + 'full' + '/' + rotation_angle + '/' + 'default' + '.jpg';
 
 
-let tesseract_query_output = 'http://localhost:3000/fcrepo/rest/myPath/path1/svc:tesseract/20,30,100,200/full/36/default.jpg';
+let tesseract_query_output = 'http://digital.ucdavis.edu/fcrepo/rest/myPath/path1/svc:tesseract/20,30,100,200/full/36/default.jpg';
 let corrected_data_output = "This is Test";
 let corrected_data_value = "This is Test";
 let flattened_data_output = { box_id: 2,
@@ -80,7 +80,7 @@ beforeEach(() => {
    //Test case 1:  tesseract_query()
    describe('#tesseract_query()', () => {
 
-       it('make sure tesseract returns the query', () => {
+       it('make sure tesseract returns the correct query (happy case)', () => {
             expect(boxData.tesseract_query).to.equal(tesseract_query_output);
         });
 
@@ -89,7 +89,7 @@ beforeEach(() => {
    //Test case 2: corrected_data()
    describe('#corrected_data()', () => {
 
-       it('Make sure it corrects data', () => {
+       it('Make sure it corrects data(happy case)', () => {
 
             boxData.corrected_data = corrected_data_value;
             expect(boxData.corrected_data).to.equal(corrected_data_output);
@@ -102,8 +102,8 @@ beforeEach(() => {
    //Test case 3: flattened_data()
    describe('#flattened_data', () => {
 
-       it('Makes not nested objects', () => {
-           console.log(boxData.flattened_data);
+       it('Verify recieving correct flattened output(happpy case)', () => {
+           //console.log(boxData.flattened_data);
            expect(boxData.flattened_data).to.eql(flattened_data_output);
         });
 
