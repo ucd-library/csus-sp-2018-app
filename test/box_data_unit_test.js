@@ -29,7 +29,7 @@ let expected_output = 'http://digital.ucdavis.edu/fcrepo/rest/'+ image_path + '/
 let tesseract_query_output = 'http://digital.ucdavis.edu/fcrepo/rest/myPath/path1/svc:tesseract/20,30,100,200/full/36/default.jpg';
 let corrected_data_output = "This is Test";
 let corrected_data_value = "This is Test";
-let flattened_data_output = { box_id: 2,
+let flattened_data_output = { box_id: 5,
                               corrected_data: null,
                               parsed_data: sample_Parsed_Data,
                               ocr_data: ocr_data,
@@ -78,7 +78,7 @@ beforeEach(() => {
  describe('box_data', () => {
 
    //Test case 1:  tesseract_query()
-   describe('#tesseract_query()', () => {
+   describe('#tesseract_query()(happy case)', () => {
 
        it('make sure tesseract returns the correct query (happy case)', () => {
             expect(boxData.tesseract_query).to.equal(tesseract_query_output);
@@ -87,7 +87,7 @@ beforeEach(() => {
    });
 
    //Test case 2: corrected_data()
-   describe('#corrected_data()', () => {
+   describe('#corrected_data()(happy case)', () => {
 
        it('Make sure it corrects data(happy case)', () => {
 
@@ -100,7 +100,7 @@ beforeEach(() => {
 
    //Parse Data does not match.
    //Test case 3: flattened_data()
-   describe('#flattened_data', () => {
+   describe('#flattened_data(happy case)', () => {
 
        it('Verify recieving correct flattened output(happpy case)', () => {
            //console.log(boxData.flattened_data);
