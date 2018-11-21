@@ -42,8 +42,7 @@ class ldp_class {
     }
 
     add_to_box_list(box_data){
-        this.box_list.push(box_data);
-
+         this.box_list.push(box_data);
     }
 
     delete_box(id_to_delete) {
