@@ -53,17 +53,21 @@ class MyApp extends PolymerElement {
       super.ready();
 
       const iiif_svc = 'svc:iiif/full/full/0/default.jpg';
-      const img_host = 'http://localhost:3000/fcrepo/rest/';
-      let ldp_data = null;
+      //const img_host = 'http://localhost:3000/fcrepo/rest/';
+      const img_host = 'http://digital.ucdavis.edu/fcrepo/rest/';
+      var ldp_data = null;
 
+
+      request("GET", '');
+
+      //var img_loc = "collection/sherry-lehmann/catalogs/d7f305/media/images/d7f305-001"
+      //var img_loc = 'collection/example_3-catalogs/catalogs/199/media/images/199-3';
 
       var img_loc = 'collection/example_3-catalogs/catalogs/199/media/images/199-3';
       var src = img_host + img_loc + '/' + iiif_svc;
 
-      request("GET", '');
 
-
-
+      // Initialize and load map
       var map = L.map(this.$.map, {
           drawControl: false,
           zoomSnap: .25,
@@ -72,6 +76,7 @@ class MyApp extends PolymerElement {
       });
 
 
+      // Load Image
       var img = new Image();
       var imgH, imgW = 0;
       img.addEventListener("load",function(){
@@ -84,6 +89,7 @@ class MyApp extends PolymerElement {
       img.src = src;
 
 
+      // Create Draw Controls
       var drawnItems = new L.FeatureGroup();
       map.addLayer(drawnItems);
       var drawControl = new L.Control.Draw({
@@ -101,6 +107,7 @@ class MyApp extends PolymerElement {
       map.addControl(drawControl);
 
 
+      // Create new box
       map.on('draw:created', function(e) {
           var type = e.layerType,
               layer = e.layer;
@@ -112,6 +119,24 @@ class MyApp extends PolymerElement {
       });
 
 
+      // Edit existing box
+      map.on('draw:edited', function(e){
+          console.log("Edited")
+      });
+
+      // Delete existing box
+      map.on('draw:deleted', function(e){
+          var layers = e.layers;
+          var deleted_boxes = [];
+          console.log("DELETED LAYERS");
+          layers.eachLayer(function (layer) {
+              deleted_boxes.push(layer.feature.properties.id)
+          });
+          console.log(JSON.stringify(deleted_boxes));
+      });
+
+
+      //select existing box
       var clickBox = function(event) {
           var coords = this.getLatLngs();
           var box = geo_to_pixel(coords[0]);
@@ -120,21 +145,17 @@ class MyApp extends PolymerElement {
           let clicked_box_id = this.feature.properties.id;
           let box_list = ldp_data.box_list;
 
-          console.log("THIS IS MY BOX LIST:", box_list)
-
           for(var i in box_list){
-              if (box_list[i]['_box_id'] == clicked_box_id){
+              if (box_list[i]['_box_id'] === clicked_box_id){
                   console.log(box_list[i]['_parsed_data']);
                   setData(box_list[i]['_parsed_data']);
               }
           }
-
-
           console.log("Box ID: " + this.feature.properties.id);
-
       };
 
 
+      //convert geoJSON coordinates to pixel coordinates on image
       function geo_to_pixel(geo) {
           let sw = geo[0];
           let nw = geo[1];
@@ -161,13 +182,15 @@ class MyApp extends PolymerElement {
           };
       }
 
-
+      // Draw boxes from box_list on image
       function display_boxes(boxes){
           console.log('Drawing Boxes');
+          drawnItems.clearLayers()
           boxes.forEach(box => draw_to_map(box))
       }
 
 
+      // Convert pixel coordinates of box to geoJSON and draw
       function draw_to_map(box){
           console.log("From LDP :" + box);
           var p1 = [imgH - box._tesseract_request._box_y_loc,
@@ -190,6 +213,7 @@ class MyApp extends PolymerElement {
       }
 
 
+      // Make a request from LDP
       function request(call, data, redraw=true){
           let xhr = new XMLHttpRequest();
           xhr.open(call, 'tesseract', true);
@@ -202,7 +226,7 @@ class MyApp extends PolymerElement {
                       display_boxes(box_list);
                   }
                   console.log(ldp_data);
-              };
+              }
           };
           xhr.send(JSON.stringify(data));
       }
@@ -218,9 +242,6 @@ class MyApp extends PolymerElement {
       if (ldp_data) {
           display_boxes(ldp_data.box_list);
       }
-
-
-      //Todo: write GET request
 
 
       //Todo: write DELETE request
