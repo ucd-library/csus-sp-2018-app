@@ -121,7 +121,10 @@ router.put('/tesseract', function (req, res) {
         ldp_object.add_to_box_list(box_obj);
 
         res.send(ldp_object);
-    });
+    }).catch(function (error) {
+        throw error;
+        }
+    );
 });
 
 module.exports = router;
