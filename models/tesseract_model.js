@@ -23,9 +23,7 @@ exports.query_tesseract = function(body){
 
     let tess_obj = new tesseract_request(tess_options);
 
-    let query = tess_obj.generate_tesseract_query(config.local_host);
-
-    console.log(query);
+    let query = tess_obj.generate_tesseract_query(config.uc_davis_domain);
 
     let my_req = request(query, query_options);
 
