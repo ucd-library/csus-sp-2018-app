@@ -6,12 +6,27 @@
     display: block;
 
   }
+  .form-submit-button {
+
+    background: #002855;
+    color: white;
+    border-style: outset;
+    border-color: #002855;
+    height: 50px;
+    width: 100px;
+    font: bold 15px arial, sans-serif;
+    text-shadow:none;
+    display: block;
+    margin: 0 auto;
+    border-radius: 25px;
+  }
 
   #map-container {
     width: 50%;
-    height: 90%;
+    height: 80%;
     padding: 10px;
     float: left;
+    border-size:2px
   }
 
   #wine-form {
@@ -27,16 +42,26 @@
   }
 
 
-  #header {
+  .header {
     text-align: center;
-    background-color: #990000;
-    color: white;
-    font-family: georgia;
-    font-size: 26px;
-    padding-bottom: 10px;
-    padding-bottom: 10px;
+    background-color: #002855;
+    color: #BF9900;
+    font-family: Impact;
+    font-size: 48px;
     border-radius: 25px;
+    display: block;
+    padding-bottom:10px;
+    padding-top:10px
   }
+  #secondHeader{
+    color:white;
+    font-size: 27px;
+  }
+
+  p {
+    margin:0
+  }
+
   .input_field{
     display: block;
     margin: 10px auto;
@@ -46,15 +71,17 @@
   label{
     display: block;
     text-align: center;
+    font-weight: bold;
   }
 
   input, textarea{
     display: block;
     margin: 0 auto;
+    background-color: #FFF5DE;
   }
 
   textarea{
-    height: 50%;
+    height: 40%;
     width: 75%;
   }
 
@@ -62,20 +89,34 @@
     height: inherit;
   }
 
+
   #ocr_field{
     height: 100%;
+  }
+
+  .header img {
+    text-align:center;
+    width: 35%;
+    height: 100%;
+  }
+  .leaflet-container {
+    background: #FFF5DE;
   }
 
 </style>
 
 
-<div id='header'>
-  Tesseract App
+<div class='header'>
+  <img src="images/vinotract.png" alt="logo" />
+    <p id='secondHeader'>
+      A Tesseract Application
+    </p>
 </div>
 <div id='map-container'>
   <div id='map'></div>
 </div>
 <div id='wine-form'>
+
   <form action="#" class="simple-form">
     <div class='input_field'>
       <label for="field_name">Name</label>
@@ -86,10 +127,8 @@
       <textarea id="field_content">
         {{text_val}}
       </textarea>
+      <input class='form-submit-button' type="submit" value="Submit">
     </div>
   </form>
   </div>
-</div>
-<div id='parsed'>
-
 </div>
