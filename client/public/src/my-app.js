@@ -73,6 +73,10 @@ class MyApp extends PolymerElement {
 
       request("GET", '', false, true)
 
+      L.EditToolbar.Delete.include({
+          removeAllLayers: false
+      });
+
       let drawnItems = new L.FeatureGroup();
       map.addLayer(drawnItems);
       let drawControl = new L.Control.Draw({
@@ -96,7 +100,7 @@ class MyApp extends PolymerElement {
           let type = e.layerType,
               layer = e.layer;
           layer.on('click', clickBox);
-          //drawnItems.addLayer(layer);
+          drawnItems.addLayer(layer);
           let coords = layer.getLatLngs();
           let box = geo_to_pixel(coords[0]);
           request("POST", box);
@@ -123,15 +127,14 @@ class MyApp extends PolymerElement {
 
 
       //select existing box
-      var clickBox = function(event) {
-          var coords = this.getLatLngs();
-          var box = geo_to_pixel(coords[0]);
+      let clickBox = function(event) {
+          let coords = this.getLatLngs();
+          let box = geo_to_pixel(coords[0]);
 
           console.log("Clicked box: " + this);
 
           let clicked_box_id = this.feature.properties.id;
           let box_list = ldp_data.box_list;
-
 
           for(var i in box_list){
               if (box_list[i]['_box_id'] === clicked_box_id){
@@ -140,8 +143,6 @@ class MyApp extends PolymerElement {
                   setData(box_list[i]['_parsed_data']);
               }
           }
-
-
           console.log("Box ID: " + this.feature.properties.id);
 
       };
@@ -153,15 +154,10 @@ class MyApp extends PolymerElement {
           let ne = geo[2];
           let se = geo[3];
 
-          console.log(nw);
-          console.log(se);
-
           let width = Math.round(se['lng'] - sw['lng']);
           let height = Math.round(ne['lat'] - se['lat']);
           let x_coord = Math.round(nw['lng']);
           let y_coord = Math.round(imgH - nw['lat']);
-
-          console.log("created coords: x=" + x_coord + " y=" + y_coord);
 
           return {
               image_path: img_loc,
@@ -172,6 +168,7 @@ class MyApp extends PolymerElement {
               rotation_angle: 0
           };
       }
+
 
       // Draw boxes from box_list on image
       function display_boxes(boxes){
@@ -192,7 +189,7 @@ class MyApp extends PolymerElement {
           ];
           let box_bounds = [p1, p2];
           console.log(box_bounds);
-          let layer = L.rectangle(box_bounds, {color: "red", weight: 1});
+          let layer = L.rectangle(box_bounds, {color: "green", weight: 1});
 
           let feature = layer.feature = layer.feature || {};
           feature.type = feature.type || "Feature";
@@ -249,12 +246,6 @@ class MyApp extends PolymerElement {
       if (ldp_data) {
           display_boxes(ldp_data.box_list);
       }
-
-
-      //Todo: write GET request
-
-
-      //Todo: write DELETE request
 
   }
 
