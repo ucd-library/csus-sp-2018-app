@@ -60,6 +60,7 @@ class MyApp extends PolymerElement {
 
 
       var map = L.map(this.$.map, {
+
           drawControl: false,
           zoomSnap: .25,
           minZoom: -3.5,
@@ -101,6 +102,7 @@ class MyApp extends PolymerElement {
       });
 
 
+
       // Edit existing box
       map.on('draw:edited', function(e){
           console.log("Edited")
@@ -122,13 +124,16 @@ class MyApp extends PolymerElement {
       var clickBox = function(event) {
           var coords = this.getLatLngs();
           var box = geo_to_pixel(coords[0]);
+
           console.log("Clicked box: " + this);
 
           let clicked_box_id = this.feature.properties.id;
           let box_list = ldp_data.box_list;
 
+
           for(var i in box_list){
               if (box_list[i]['_box_id'] === clicked_box_id){
+
                   console.log(box_list[i]['_parsed_data']);
                   setData(box_list[i]['_parsed_data']);
               }
