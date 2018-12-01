@@ -57,7 +57,7 @@ class box_data {
     }
 
     get tesseract_query(){
-        return this._tesseract_request.generate_tesseract_query(config.local_host);
+        return this._tesseract_request.generate_tesseract_query(config.uc_davis_domain);
     }
 
     get corrected_data() {return this._corrected_data;}
@@ -85,7 +85,7 @@ class box_data {
             box_width           : request_data.box_width,
             box_height          : request_data.box_height,
             rotation_angle      : request_data.rotation_angle,
-            query               : tesseract_request.generate_tesseract_query(config.local_host)
+            query               : tesseract_request.generate_tesseract_query(config.uc_davis_domain)
         }
 
         return data;

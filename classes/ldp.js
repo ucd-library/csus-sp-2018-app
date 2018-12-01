@@ -19,7 +19,6 @@ class ldp_class {
             this.box_list = options.box_list;
         }
 
-        Object.freeze(this.user);
         Object.freeze(this.image_path);
         Object.freeze(this.image_height);
         Object.freeze(this.image_width);
@@ -43,8 +42,7 @@ class ldp_class {
     }
 
     add_to_box_list(box_data){
-        this.box_list.push(box_data);
-
+         this.box_list.push(box_data);
     }
 
     delete_box(id_to_delete) {
