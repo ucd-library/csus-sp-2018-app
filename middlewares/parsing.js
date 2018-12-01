@@ -11,7 +11,8 @@ exports.hocrParser = function(hocrString){
     parser.write(hocrString);
     parser.end();
 
-    // Calling match() on the string to remove any extraneous whitespace and "\n" "\" quotations that tesseract adds.
+    // Calling trim() on the string to remove any extraneous whitespace that Tesseract returns around the text
+    // It was returning with about 10 newline characters on both the beginning and ending of the string.
 
-    return allText.match(/([^\\(\\n)"\s]).*([^\\(\\n)"\s])/g)[0];
+    return allText.trim()
 };
