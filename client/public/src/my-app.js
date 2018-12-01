@@ -53,18 +53,12 @@ class MyApp extends PolymerElement {
       super.ready();
 
       const iiif_svc = 'svc:iiif/full/full/0/default.jpg';
-      const img_host = 'http://localhost:3000/fcrepo/rest/';
+      const img_host = 'http://digital.ucdavis.edu/fcrepo/rest/';
       let ldp_data = null;
 
+      let img_loc = null;
 
-      var img_loc = 'collection/example_3-catalogs/catalogs/199/media/images/199-3';
-      var src = img_host + img_loc + '/' + iiif_svc;
-
-      request("GET", '');
-
-
-
-      var map = L.map(this.$.map, {
+      let map = L.map(this.$.map, {
           drawControl: false,
           zoomSnap: .25,
           minZoom: -3.5,
@@ -72,21 +66,14 @@ class MyApp extends PolymerElement {
       });
 
 
-      var img = new Image();
-      var imgH, imgW = 0;
-      img.addEventListener("load",function(){
-          imgH = this.naturalHeight;
-          imgW = this.naturalWidth;
-          var bounds = [[0,0], [imgH, imgW]];
-          L.imageOverlay(src, bounds).addTo(map);
-          map.fitBounds(bounds);
-      });
-      img.src = src;
+      let img = new Image();
+      let imgH, imgW = 0;
 
+      request("GET", '', false, true)
 
-      var drawnItems = new L.FeatureGroup();
+      let drawnItems = new L.FeatureGroup();
       map.addLayer(drawnItems);
-      var drawControl = new L.Control.Draw({
+      let drawControl = new L.Control.Draw({
           draw: {
               polygon: false,
               marker: false,
@@ -102,19 +89,19 @@ class MyApp extends PolymerElement {
 
 
       map.on('draw:created', function(e) {
-          var type = e.layerType,
+          let type = e.layerType,
               layer = e.layer;
           layer.on('click', clickBox);
           //drawnItems.addLayer(layer);
-          var coords = layer.getLatLngs();
-          var box = geo_to_pixel(coords[0]);
+          let coords = layer.getLatLngs();
+          let box = geo_to_pixel(coords[0]);
           request("POST", box);
       });
 
 
-      var clickBox = function(event) {
-          var coords = this.getLatLngs();
-          var box = geo_to_pixel(coords[0]);
+      let clickBox = function(event) {
+          let coords = this.getLatLngs();
+          let box = geo_to_pixel(coords[0]);
           console.log("Clicked box: " + this);
 
           let clicked_box_id = this.feature.properties.id;
@@ -122,7 +109,7 @@ class MyApp extends PolymerElement {
 
           console.log("THIS IS MY BOX LIST:", box_list)
 
-          for(var i in box_list){
+          for(let i in box_list){
               if (box_list[i]['_box_id'] == clicked_box_id){
                   console.log(box_list[i]['_parsed_data']);
                   setData(box_list[i]['_parsed_data']);
@@ -170,27 +157,37 @@ class MyApp extends PolymerElement {
 
       function draw_to_map(box){
           console.log("From LDP :" + box);
-          var p1 = [imgH - box._tesseract_request._box_y_loc,
+          let p1 = [imgH - box._tesseract_request._box_y_loc,
               box._tesseract_request._box_x_loc
           ];
-          var p2 = [imgH - (box._tesseract_request._box_y_loc + box._tesseract_request._box_height),
+          let p2 = [imgH - (box._tesseract_request._box_y_loc + box._tesseract_request._box_height),
               box._tesseract_request._box_x_loc + box._tesseract_request._box_width
           ];
-          var box_bounds = [p1, p2];
+          let box_bounds = [p1, p2];
           console.log(box_bounds);
-          var layer = L.rectangle(box_bounds, {color: "red", weight: 1});
+          let layer = L.rectangle(box_bounds, {color: "red", weight: 1});
 
-          var feature = layer.feature = layer.feature || {};
+          let feature = layer.feature = layer.feature || {};
           feature.type = feature.type || "Feature";
-          var props = feature.properties = feature.properties || {};
+          let props = feature.properties = feature.properties || {};
           props.id = box._box_id;
 
           layer.on('click', clickBox);
           drawnItems.addLayer(layer);
       }
 
+      function addImage(img, src, map) {
+          img.addEventListener("load", function () {
+              imgH = this.naturalHeight;
+              imgW = this.naturalWidth;
+              let bounds = [[0, 0], [imgH, imgW]];
+              L.imageOverlay(src, bounds).addTo(map);
+              map.fitBounds(bounds);
+          });
+      }
 
-      function request(call, data, redraw=true){
+
+      function request(call, data, redraw=true, init=false){
           let xhr = new XMLHttpRequest();
           xhr.open(call, 'tesseract', true);
           xhr.setRequestHeader("Content-Type", "application/json");
@@ -200,6 +197,13 @@ class MyApp extends PolymerElement {
                   if (redraw){
                       let box_list = ldp_data['box_list'];
                       display_boxes(box_list);
+                  }
+                  if(init){
+                      img_loc = ldp_data.image_path;
+                      let src = img_host + ldp_data.image_path + '/' + iiif_svc;
+                      console.log("SOURCE", src);
+                      addImage(img, src, map);
+                      img.src = src;
                   }
                   console.log(ldp_data);
               };
