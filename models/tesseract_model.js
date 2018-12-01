@@ -6,7 +6,9 @@ const request = require('request-promise');
 const config = require('../config');
 const query_options = {
     method: 'GET',
-    timeout: 5000,
+
+    //timeout: 5000,
+
     headers:{
         Accept: 'application/hocr+xml'
     }
@@ -37,4 +39,4 @@ exports.query_tesseract = function(body){
 
 exports.create_box_data = function (o_data, t_request_data) {
     return new box_data(o_data, t_request_data);
-};
+}
