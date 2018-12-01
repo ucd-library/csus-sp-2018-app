@@ -84,7 +84,8 @@ class MyApp extends PolymerElement {
               circlemarker: false
           },
           edit: {
-              featureGroup: drawnItems
+              featureGroup: drawnItems,
+              edit: false
           }
       });
       map.addControl(drawControl);
@@ -110,13 +111,14 @@ class MyApp extends PolymerElement {
 
       // Delete existing box
       map.on('draw:deleted', function(e){
-          var layers = e.layers;
-          var deleted_boxes = [];
-          console.log("DELETED LAYERS");
+          let layers = e.layers;
+          let deleted_boxes = [];
+
           layers.eachLayer(function (layer) {
               deleted_boxes.push(layer.feature.properties.id)
           });
-          console.log(JSON.stringify(deleted_boxes));
+          let to_delete = {id_list: deleted_boxes};
+          request("DELETE", to_delete);
       });
 
 
@@ -143,7 +145,6 @@ class MyApp extends PolymerElement {
           console.log("Box ID: " + this.feature.properties.id);
 
       };
-
 
       //convert geoJSON coordinates to pixel coordinates on image
       function geo_to_pixel(geo) {

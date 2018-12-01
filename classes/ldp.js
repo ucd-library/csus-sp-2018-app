@@ -45,16 +45,17 @@ class ldp_class {
          this.box_list.push(box_data);
     }
 
-    delete_box(id_to_delete) {
-        for (let i in this.box_list){
+    delete_boxes(id_list) {
+        // If box is not in list of ids to remove we want to keep it.
+        function remove(box){
+            let id = box['box_id'];
+            let val = !id_list.includes(id);
+            return val
+        }
 
-            let box = this.box_list[i];
+        this.box_list = this.box_list.filter(remove)
 
-            if(box['box_id'] ===  id_to_delete){
 
-                this.box_list.splice(i, 1);
-            }
-        };
     }
 
     get_box_ids(){
