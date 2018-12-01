@@ -100,8 +100,11 @@ router.post('/tesseract', function (req, res) {
 
 // Delete a box data from the ldp instance
 router.delete('/tesseract', function (req, res) {
+    let id_list = req.body['id_list'];
 
-    ldp_object.delete_box(req.body['box_id']);
+    console.log('THIS IS MY ID LIST:', id_list)
+
+    ldp_object.delete_boxes(id_list);
     res.send(ldp_object);
 });
 
