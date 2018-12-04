@@ -42,6 +42,14 @@ class tesseract_request {
         }
     };
 
+    get box_x_loc(){
+        return this._box_x_loc;
+    }
+
+    get box_y_loc(){
+        return this._box_y_loc;
+    }
+
     generate_tesseract_query(server){
         /**
          * @method generate_tesseract_query
