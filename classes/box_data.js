@@ -1,7 +1,8 @@
 const Joi = require('joi');
 
 const config = require('../config')
-const parsing = require('../middlewares/parsing')
+const hocr_parsing = require('../middlewares/parsing');
+const gocr_parsing = require('../middlewares/hocr_to_gocr')
 const box_data_schema = require('../middlewares/validation/joi_schemas/tesseract_schemas').box_data;
 
 let box_id = 0;
@@ -15,6 +16,7 @@ class box_data {
      * @property {string} tesseract_request - The object representation of the data sent to us by client to query Tesseract with.
      * @property {string} corrected_data - The corrections (if any) to what Tesseract thought the selected text said
      * @property {xml} ocr_data - The raw unparsed response from Tesseract
+     * @property {json} google_vision_json - hocr data parsed into google vision format
      * @property {number} box_id - Static, unique identifier for box object.
      */
 
@@ -22,7 +24,8 @@ class box_data {
         this._tesseract_request = tesseract_request;
         this._corrected_data = null;
         this._ocr_data = ocr_data;
-        this._parsed_data = parsing.hocrParser(ocr_data);
+        this._parsed_data = hocr_parsing.hocrParser(ocr_data);
+        this._google_vision_json = gocr_parsing.hocrToGocr(ocr_data, tesseract_request);
         this._box_id = box_id++;
 
         Object.freeze(this._box_id);
@@ -38,6 +41,8 @@ class box_data {
     }
 
     get box_id() {return this._box_id}
+
+    get google_vision_json(){return this.google_vision_json};
 
     get parsed_data(){return this._parsed_data;}
 
@@ -79,6 +84,7 @@ class box_data {
             corrected_data      : this._corrected_data,
             parsed_data         : this._parsed_data,
             ocr_data            : this._ocr_data,
+            google_vision_json  : this._google_vision_json,
             image_path          : request_data.image_path,
             box_x_loc           : request_data.box_x_loc,
             box_y_loc           : request_data.box_y_loc,

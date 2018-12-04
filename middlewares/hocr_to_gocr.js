@@ -15,10 +15,10 @@ class verticesFactory {
   }
   //Converting the strings to ints as well as applying the offset.
   createVertices(leftX, topY, rightX, bottomY){
-    let leftXInt = parseInt(leftX) + this.xOffset;
-    let topYInt = parseInt(topY) + this.yOffset;
-    let rightXInt = parseInt(rightX) + this.xOffset;
-    let bottomYInt = parseInt(bottomY) + this.yOffset;
+      let leftXInt = parseInt(leftX) + this.xOffset;
+      let topYInt = parseInt(topY) + this.yOffset;
+      let rightXInt = parseInt(rightX) + this.xOffset;
+      let bottomYInt = parseInt(bottomY) + this.yOffset;
     return new vertices(leftXInt, topYInt, rightXInt, bottomYInt);
   }
 }
@@ -45,7 +45,7 @@ exports.hocrToGocr = function(hocrString, request){
   let phraseVertices = null;
   let ta = new textAnnotations();
   
-  let vertFactory = new verticesFactory(request.x_box_loc, request.y_box_loc);
+  let vertFactory = new verticesFactory(request.box_x_loc, request.box_y_loc);
   
   let parser = new htmlparser.Parser({
     onattribute: function(name, value){

@@ -14,6 +14,7 @@ const box_data = Joi.object().keys({
 
     _tesseract_request   : tesseract_request_schema.keys(),
     _corrected_data      : Joi.string().allow(null),
+    _google_vision_json  : Joi.object(),
     _ocr_data            : Joi.string().required(),
     _parsed_data         : Joi.string().required(),
     _box_id              : Joi.number().required()
